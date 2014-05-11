@@ -1,0 +1,15 @@
+{% extends "UnrtechEasybillBundle:Default:base.html.twig" %}
+
+{% block title %}{% if title is defined %}{{ title|trans({},'UnrtechEasybillBundle') }}{% else %}{{ parent() }}{% endif %}{% endblock title %}
+
+{% block stylesheets %}{{ parent() }}{% endblock %}
+
+{% block content %}
+{% if form is defined %}
+    <div class="span8">
+        <form action="{{ path('path_form_bill') }}" method="post" {{ form_enctype(form) }} class="form-horizontal span8">
+            {{ form(form) }}
+        </form>
+    </div>
+{% endif %}
+{% endblock content %}

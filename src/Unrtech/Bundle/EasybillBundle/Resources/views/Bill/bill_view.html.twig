@@ -1,0 +1,72 @@
+{% extends "UnrtechEasybillBundle:Default:base.html.twig" %}
+
+{% block title %}{% if title is defined %}{{ title|trans({},'UnrtechEasybillBundle') }}{% else %}{{ parent() }}{% endif %}{% endblock title %}
+
+{% block stylesheets %}{{ parent() }}{% endblock %}
+
+{% block content %}
+    <div class="row-fluid">
+        {% if bill is defined%}
+            <div class="row-fluid">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <div class="row-fluid">
+                        {% if bill.customer is defined%}
+                                <span class="col-md-6">{{ bill.customer }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="col-md-12">
+                    <table class="table table-responsive table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="col-md-6">Pr&eacute;station</th>
+                                <th class="col-md-1 right">Quantit&eacute;</th>
+                                <th class="col-md-1 right">Prix unitaire</th>
+                                <th class="col-md-1 right">R&eacute;duction</th>
+                                <th class="col-md-1 right">S/Total</th>
+                                <th class="col-md-1"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% if bill.lines is defined and bill.lines|length > 0 %}
+                            {% for line in bill.lines %}
+                                <tr>
+                                    <td>{% if line.service is defined %}{{ line.service }}{% else %}-{% endif %}</td>
+                                    <td class="right">{% if line.quantity is defined %}{{ line.quantity }}{% else %}-{% endif %}</td>
+                                    <td class="right">{% if line.unitPrice is defined %}{{ line.unitPrice|number_format(2, '.', ',') }} €{% else %}-{% endif %}</td>
+                                    <td class="right">{% if line.discount is defined %}{{ line.discount*100 }} %{% else %}-{% endif %}</td>
+                                    <td class="right">
+                                        {% if line.quantity is defined and line.unitPrice is defined %}
+                                            {% set price = line.quantity * line.unitPrice %}
+                                            {% if line.discount is defined %}
+                                                {% set discountPrice = price - (price * line.discount) %}
+                                            {% else %}
+                                                {% set discountPrice = price %}
+                                            {% endif %}
+                                            {{ discountPrice|number_format(2, '.', ',') }} €
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-success" href="{{ path('path_form_bill_line', {'id': line.id}) }}">Edit</a>
+                                        <a class="btn btn-danger" href="{{ path('path_remove_bill_line', {'line': line.id}) }}">Delete</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}
+
+{% block footer %}
+{% endblock footer %}
+
+{% block javascripts %}{{ parent() }}{% endblock %}

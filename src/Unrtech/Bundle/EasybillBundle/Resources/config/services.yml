@@ -1,0 +1,16 @@
+parameters:
+#    unrtech_easybill.example.class: Unrtech\Bundle\EasybillBundle\Example
+
+services:
+  unrtech.form.type.bill_line:
+        class: Unrtech\Bundle\EasyBillBundle\Form\Type\BillLineType
+        tags:
+          - { name: form.type, alias: bill_line }
+        arguments:
+          - "@service_container"
+  unrtech.form.type.bill:
+        class: Unrtech\Bundle\EasyBillBundle\Form\Type\BillType
+        tags:
+          - { name: form.type, alias: bill }
+        arguments:
+          - "@service_container"

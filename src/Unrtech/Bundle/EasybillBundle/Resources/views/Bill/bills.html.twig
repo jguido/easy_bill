@@ -1,0 +1,54 @@
+{% extends "UnrtechEasybillBundle:Default:base.html.twig" %}
+
+{% block title %}{% if title is defined %}{{ title|trans({},'UnrtechEasybillBundle') }}{% else %}{{ parent() }}{% endif %}{% endblock title %}
+
+{% block stylesheets %}{{ parent() }}{% endblock %}
+
+{% block content %}
+    <div class="row-fluid">
+        <div class="col-md-3">
+            <a class="btn btn-primary" href="{{ path('path_form_bill', {'id': null}) }}">Create</a>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-md-10">
+            <table class="table table-responsive table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>R&eacute;f&eacute;rence</th>
+                        <th>Client</th>
+                        <th>Total HT</th>
+                        <th>Status</th>
+                        <th>Date Cr&eacute;ation</th>
+                        <th>Date dernier acc&egrave;s</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if bills is defined and bills|length > 0%}
+                        {% for bill in bills %}
+                            <tr>
+                                <td>{{ bill.reference }}</td>
+                                <td>{{ bill.customer }}</td>
+                                <td>{{ bill.totalHt }}</td>
+                                <td>{{ bill.status }}</td>
+                                <td>{{ bill.creationDate|date("d-m-Y") }}</td>
+                                <td>{{ bill.updateDate|date("d-m-Y") }}</td>
+                                <td>
+                                    <a class="btn btn-success" href="{{ path('path_form_bill', {'id': bill.id}) }}">Edit</a>
+                                    <a class="btn btn-inverse" href="{{ path('path_view_bill', {'id': bill.id}) }}">View</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock footer %}
+
+{% block javascripts %}{{ parent() }}{% endblock %}
+

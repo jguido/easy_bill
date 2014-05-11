@@ -1,0 +1,7 @@
+fos_route:
+    resource: "fos_routing.yml"
+unrtech_easybill:
+    resource: "@UnrtechEasybillBundle/Controller"
+    prefix:   /
+    type: annotation
+
