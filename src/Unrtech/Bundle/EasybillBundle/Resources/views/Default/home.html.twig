@@ -5,11 +5,13 @@
 {% block stylesheets %}{{ parent() }}{% endblock %}
 
 {% block content %}
-{% if form is defined %}
-    <div class="span8">
-        <form action="{{ path('path_form_bill') }}" method="post" {{ form_enctype(form) }} class="form-horizontal span8">
-            {{ form(form) }}
-        </form>
+    <div class="row-fluid">
+        <h3>Home</h3>
     </div>
-{% endif %}
-{% endblock content %}
+{% endblock %}
+
+{% block footer %}
+{% endblock footer %}
+
+{% block javascripts %}{{ parent() }}{% endblock %}
+

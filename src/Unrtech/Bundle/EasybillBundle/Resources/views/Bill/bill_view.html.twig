@@ -8,6 +8,43 @@
     <div class="row-fluid">
         {% if bill is defined%}
             <div class="row-fluid">
+                <!-- Company info -->
+                <div class="col-md-6">
+                </div>
+                <!-- Customer info -->
+                <div class="col-md-6">
+                    {% if bill.updateDate is defined%}
+                        <span class="col-md-7">{{ bill.updateDate|date('d-m-Y') }}</span>
+                    {% endif %}
+                    {% if bill.status is defined%}
+                            <span class="col-md-7">{{ bill.status }}</span>
+                    {% endif %}
+                    {% if bill.reference is defined%}
+                            <span class="col-md-7">{{ bill.reference }}</span>
+                    {% endif %}
+                    {% if bill.customer is defined%}
+                            <span class="col-md-7">{{ bill.customer }}</span>
+                        {% if bill.customer.address is defined%}
+                            {% if bill.customer.address.address1 is defined%}
+                                <span class="col-md-7">{{ bill.customer.address.address1 }}</span>
+                            {% endif %}
+                            {% if bill.customer.address.address2 is defined%}
+                                <span class="col-md-7">{{ bill.customer.address.address2 }}</span>
+                            {% endif %}
+                            {% if bill.customer.address.complement is defined%}
+                                <span class="col-md-7">{{ bill.customer.address.complement }}</span>
+                            {% endif %}
+                            {% if bill.customer.address.postCode is defined%}
+                                <span class="col-md-7">{{ bill.customer.address.postCode }}</span>
+                            {% endif %}
+                            {% if bill.customer.address.city is defined%}
+                                <span class="col-md-7">{{ bill.customer.address.city }}</span>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row-fluid">
                 <div class="col-md-6"></div>
                 <div class="col-md-6">
                     <div class="row-fluid">
@@ -33,7 +70,7 @@
                         <tbody>
                         {% if bill.lines is defined and bill.lines|length > 0 %}
                             {% for line in bill.lines %}
-                                <tr>
+                                <tr data-id="{{ line.id }}" data-parent="{{ bill.id }}">
                                     <td>{% if line.service is defined %}{{ line.service }}{% else %}-{% endif %}</td>
                                     <td class="right">{% if line.quantity is defined %}{{ line.quantity }}{% else %}-{% endif %}</td>
                                     <td class="right">{% if line.unitPrice is defined %}{{ line.unitPrice|number_format(2, '.', ',') }} €{% else %}-{% endif %}</td>
@@ -52,7 +89,7 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        <a class="btn btn-success" href="{{ path('path_form_bill_line', {'id': line.id}) }}">Edit</a>
+                                        <a class="btn btn-success editBillLine" data-target="modalEditFom" data-toogle="modal" href="#" data-href="{{ path('path_form_bill_line', {'id': line.id, 'parent': bill.id}) }}">Edit</a>
                                         <a class="btn btn-danger" href="{{ path('path_remove_bill_line', {'line': line.id}) }}">Delete</a>
                                     </td>
                                 </tr>
@@ -62,6 +99,40 @@
                     </table>
                 </div>
             </div>
+            <div class="row-fluid">
+                <div class="col-md-4 col-md-offset-8">
+                    {% set totalTax = bill.totalHt * bill.taxes %}
+                    {% set totalTTC = bill.totalHt + totalTax %}
+                    <table class="table table-responsive table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="col-md-6">Total HT</th>
+                                <th class="col-md-1 right">Total TVA</th>
+                                <th class="col-md-1 right">Total TTC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="right">{{ bill.totalHt|number_format(2, '.', ',') }} €</td>
+                                <td class="right">{{ totalTax|number_format(2, '.', ',') }} €</td>
+                                <td class="right">{{ totalTTC|number_format(2, '.', ',') }} €</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div aria-hidden="true" aria-labelledby="modalEditFomLabel" role="dialog" tabindex="-1" class="modal fade modalEditFom">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                            <h4 id="modalEditFomLabel" class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endif %}
     </div>
 {% endblock content %}
@@ -69,4 +140,30 @@
 {% block footer %}
 {% endblock footer %}
 
-{% block javascripts %}{{ parent() }}{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        jQuery(function($){
+            var twsModalEditForm = $('.modalEditFom');
+            $('.editBillLine').unbind('click').click(function(){
+                closeModal(twsModalEditForm);
+                var url = $(this).attr('data-href');
+                $.get(url, function(res) {
+                    $('.modal-body', twsModalEditForm).html(res);
+                    openModal(twsModalEditForm, "&Eacute;dition de la ligne de facture");
+                    manageButtons();
+                });
+            });
+            function closeModal(modal) {modal.removeClass('in').attr('aria-hidden', 'true').css({display: 'none'});}
+            function openModal(modal, title) {modal.addClass('in').attr('aria-hidden', 'false').css({display: 'block'});$('h4.modal-title', modal).html(title);}
+            function manageButtons(){
+                $('.close', twsModalEditForm).unbind('click').click(function(){
+                    closeModal(twsModalEditForm);
+                });
+                $('button.close-modal', twsModalEditForm).unbind('click').click(function(){
+                    closeModal(twsModalEditForm);
+                });
+            };
+        });
+    </script>
+{% endblock %}

@@ -61,14 +61,14 @@ class BaseBill
     /**
      * @var decimal
      *
-     * @ORM\Column(name="taxes", type="decimal")
+     * @ORM\Column(name="taxes", type="float")
      */
     private $taxes;
     
     /**
      * @var decimal
      *
-     * @ORM\Column(name="total_ht", type="decimal")
+     * @ORM\Column(name="total_ht", type="float")
      */
     private $totalHt;
 
@@ -85,18 +85,11 @@ class BaseBill
      * @ORM\ManyToOne(targetEntity="Unrtech\Bundle\EasybillBundle\Entity\Payment")
      */
     private $payment;
-//    
-//    /**
-//     * @var Customer
-//     * 
-//     * @ORM\ManyToOne(targetEntity="Unrtech\Bundle\EasybillBundle\Entity\Customer", inversedBy="bills")
-//     */
-//    private $customer;
     
     /**
      * @var Customer
      * 
-     * @ORM\Column(name="customer", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Unrtech\Bundle\EasybillBundle\Entity\Customer", inversedBy="bills")
      */
     private $customer;
     
@@ -120,6 +113,12 @@ class BaseBill
     public function getId()
     {
         return $this->id;
+    }
+    
+    public function setId($id) {
+        $this->id = $id;
+        
+        return $this;
     }
 
     /**
@@ -198,7 +197,7 @@ class BaseBill
      * 
      * @return Bill
      */
-    public function setStatus(BillStatus $status)
+    public function setStatus(BillStatus $status = null)
     {
         $this->status = $status;
     
@@ -323,37 +322,14 @@ class BaseBill
         return $this->payment;
     }
 
-//    /**
-//     * Set customer
-//     * 
-//     * @param \Unrtech\Bundle\EasybillBundle\Entity\Customer $customer
-//     * 
-//     * @return \Unrtech\Bundle\EasybillBundle\Entity\BaseBill
-//     */
-//    public function setCustomer(Customer $customer){
-//        $this->customer = $customer;
-//        
-//        return $this;
-//    }
-//    
-//    /**
-//     * Get customer
-//     * 
-//     * @return Unrtech\Bundle\EasybillBundle\Entity\Customer
-//     */
-//    public function getCustomer() {
-//        
-//        return $this->customer;
-//    }
-    
     /**
      * Set customer
      * 
-     * @param string $customer
+     * @param \Unrtech\Bundle\EasybillBundle\Entity\Customer $customer
      * 
      * @return \Unrtech\Bundle\EasybillBundle\Entity\BaseBill
      */
-    public function setCustomer($customer){
+    public function setCustomer(Customer $customer = null){
         $this->customer = $customer;
         
         return $this;
@@ -362,7 +338,7 @@ class BaseBill
     /**
      * Get customer
      * 
-     * @return string
+     * @return Unrtech\Bundle\EasybillBundle\Entity\Customer
      */
     public function getCustomer() {
         

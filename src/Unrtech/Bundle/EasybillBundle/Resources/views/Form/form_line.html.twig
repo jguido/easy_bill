@@ -1,0 +1,7 @@
+{% if form is defined %}
+    <div class="span8">
+        <form action="{{ path('path_form_bill_line', {'id': id, 'parent': parent}) }}" method="post" {{ form_enctype(form) }} class="form-horizontal span8">
+            {{ form_rest(form) }}
+        </form>
+    </div>
+{% endif %}

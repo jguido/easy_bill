@@ -12,7 +12,7 @@ use FOS\UserBundle\Entity\User as FosBaseUser;
  * @ORM\Entity()
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"customer" = "Customer", "super_admin" = "SuperAdmin"})
+ * @ORM\DiscriminatorMap({"super_admin" = "SuperAdmin"})
  */
 abstract class BaseUser extends FosBaseUser
 {

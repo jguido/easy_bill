@@ -9,7 +9,16 @@ use Symfony\Component\HttpFoundation\Request;
 class ViewController extends Controller
 {
     /**
-     * @Route("/", name="path_bills")
+     * @Route("/", name="path_home")
+     */
+    public function homeAction()
+    {
+        
+        return $this->render('UnrtechEasybillBundle:Default:home.html.twig', array('title' => 'EasyBill'));
+    }
+    
+    /**
+     * @Route("/bills", name="path_bills")
      */
     public function billsAction()
     {

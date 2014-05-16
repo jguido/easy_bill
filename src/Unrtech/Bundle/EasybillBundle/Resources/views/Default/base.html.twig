@@ -11,6 +11,23 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
+        <nav class="nav navbar-default" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{{ path('path_home') }}"><span class="glyphicon glyphicon-home" title="Home page"></span></a>
+                    {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand" href="{{ path('path_bills') }}" title="Bill list"><span class="glyphicon glyphicon-th-list"></span></a>{% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand" href="{{ path('path_form_bill', {'id': null}) }}" title="New Bill"><span class="glyphicon glyphicon-plus"></span></a>{% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand" href="#" title="Customer list"><span class="glyphicon glyphicon-user"></span></a>{% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand" href="#" title="Parameters"><span class="glyphicon glyphicon-pencil"></span></a>{% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="navbar-brand" href="{{ path('fos_user_security_logout') }}" title="Logout"><span class="glyphicon glyphicon-log-out"></span></a>
+                    {% else %}
+                        <a class="navbar-brand" href="{{ path('fos_user_security_login') }}" title="Login"><span class="glyphicon glyphicon-log-in"></span></a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
         <div class="container-fluid">
             <div class="row-fluid">{% block header %}{% endblock %}</div>
             <div class="row-fluid">{% block content %}{% endblock %}</div>

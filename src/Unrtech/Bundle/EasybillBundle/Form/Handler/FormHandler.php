@@ -26,21 +26,19 @@ class FormHandler {
 
     public function process() {
         $result = false;
-        // Check the method
-        if ('POST' == $this->_request->getMethod()) {
-            // Bind value with form
-            $this->_form->bind($this->_request);
-            if ($this->_form->isValid()) {
-                $data = $this->_form->getData();
-                
-                $result = $this->onSuccess($data);
-            }
+        if ($this->_form->isValid()) {
+
+            $result = $this->onSuccess($this->_form->getData());
         }
         
         return $result;
     }
 
     public function onSuccess($data) {
+        if (null === $data) {
+            throw new \Symfony\Component\Process\Exception\ProcessFailedException('Data is null');
+        }
+        
         $em = $this->_container->get('doctrine.orm.entity_manager');
         
         if (null === $data->getId()) {

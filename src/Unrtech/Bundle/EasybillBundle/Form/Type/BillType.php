@@ -22,6 +22,7 @@ class BillType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
+                ->add('id', 'hidden')
                 ->add('reference', null, array('required' => 'true'))
                 ->add('taxes', null, array('required' => true))
                 ->add('totalHt', null, array('required' => true))
