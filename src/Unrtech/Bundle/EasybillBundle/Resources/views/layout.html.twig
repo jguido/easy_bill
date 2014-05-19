@@ -1,0 +1,15 @@
+{% extends "UnrtechEasybillBundle:Default:base.html.twig" %}
+{% block title %}Identifiez vous!{% endblock %}
+{% block content %}
+    {% block fos_user_content %}
+    {% endblock fos_user_content %}
+{% endblock content %}
+{% block footer %}
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="flash-{{ type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endblock footer %}

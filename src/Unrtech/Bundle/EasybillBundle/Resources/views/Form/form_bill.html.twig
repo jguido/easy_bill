@@ -7,7 +7,7 @@
 {% block content %}
     {% if form is defined %}
         <div class="col-xs-8">
-            <form action="{{ path('path_form_bill') }}" method="post" {{ form_enctype(form) }} class="form-horizontal span8">
+            <form action="{% if action == 'edit' %}{{ path('path_form_bill_edit', {'id':id}) }}{% else %}{{ path('path_form_bill_create') }}{% endif %}" method="post" {{ form_enctype(form) }} class="form-horizontal span8">
                 {{ form_rest(form) }}
             </form>
         </div>
@@ -17,4 +17,12 @@
 {% block footer %}
 {% endblock footer %}
 
-{% block javascripts %}{{ parent() }}{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        jQuery(function($){
+            $('button.return-list').unbind('click').click(function(){
+                document.location.href = $('.navbar-brand:eq(1)').attr('href');
+            });
+        });
+    </script>{% endblock %}

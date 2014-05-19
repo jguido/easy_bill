@@ -30,8 +30,8 @@ class BillType extends AbstractType {
                 ->add('payment', 'entity', array('required' => true, 'class' => 'Unrtech\Bundle\EasybillBundle\Entity\Payment'))
 //                ->add('customer', 'entity', array('required' => true, 'class' => 'Unrtech\Bundle\EasybillBundle\Entity\Customer'))
                 ->add('customer', null, array('required' => true))
-                ->add('submit', 'submit', array('attr' => array('class' => 'btn btn-primary')))
-                ->add('annuler', 'reset', array('attr' => array('class' => 'btn btn-inverse')))
+                ->add('Enregistrer', 'submit', array('attr' => array('class' => 'btn btn-primary')))
+                ->add('Retour', 'button', array('attr' => array('class' => 'btn btn-inverse return-list')))
         ;
     }
 

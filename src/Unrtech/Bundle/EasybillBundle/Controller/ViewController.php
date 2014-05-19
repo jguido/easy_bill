@@ -8,6 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ViewController extends Controller
 {
+    protected $_cache;
+
+
+//    public function __construct() {
+//        $this->_cache = new Memcache();
+//        $this->_cache->connect('localhost', 11211) or die("Connexion impossible");
+//    }
     /**
      * @Route("/", name="path_home")
      */

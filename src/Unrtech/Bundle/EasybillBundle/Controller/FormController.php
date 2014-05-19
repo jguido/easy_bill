@@ -16,73 +16,110 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class FormController extends Controller {
 
     /**
-     * @Route("/form/render/bill/{id}", name="path_form_bill")
+     * @Route("/form/render/bill/create", name="path_form_bill_create")
      */
-    public function billAction(Request $request, $id = null) {
+    public function billCreateAction(Request $request) {
         $_em = $this->getDoctrine()->getManager();
-        $object = $id ? $_em->getRepository('UnrtechEasybillBundle:BaseBill')->find($id) : new BaseBill();
+        $object = new BaseBill();
         
         $form = $this->createForm(new BillType($this->container), $object);
         
-//        $form->handleRequest($request);
-        $form->submit($request->get('bill'));
+        $form->handleRequest($request);
         if ($form->isValid()) {
-            if (null === $object->getId()) {
-                $_em->persist($object);
-            }
-            
+            $_em->persist($object);
             $_em->flush();
-            $bill = $_em->getRepository('UnrtechEasybillBundle:BaseBill')->findOneBy(array('slug' => $object->getSlug()));
+            
             return $this->redirect($this->generateUrl('path_view_bill', array(
-                'id' => $bill->getId()
+                'id' => $object->getId()
             )));
         }
 
         return $this->render('UnrtechEasybillBundle:Form:form_bill.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'action' => 'create'
         ));
     }
 
     /**
-     * @Route("/form/render/bill_line/{id}-{parent}", name="path_form_bill_line")
+     * @Route("/form/render/bill/{id}", name="path_form_bill_edit")
      */
-    public function billLineAction(Request $request, $parent, $id = null) {
+    public function billEditAction(Request $request, $id) {
+        $_em = $this->getDoctrine()->getManager();
+        $object = $_em->getRepository('UnrtechEasybillBundle:BaseBill')->find($id);
+        
+        $form = $this->createForm(new BillType($this->container), $object);
+        
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $_em->flush();
+            
+            return $this->redirect($this->generateUrl('path_view_bill', array(
+                'id' => $id
+            )));
+        }
+
+        return $this->render('UnrtechEasybillBundle:Form:form_bill.html.twig', array(
+            'form' => $form->createView(),
+            'action' => 'edit',
+            'id' => $id
+        ));
+    }
+
+    /**
+     * @Route("/form/render/bill_line/{parent}/create", name="path_form_bill_line_create")
+     */
+    public function billLineCreateAction(Request $request, $parent) {
         $_em = $this->getDoctrine()->getManager();
         
-        if ($id) { 
-            $object = $_em->getRepository('UnrtechEasybillBundle:BillLine')->find($id);
-        } else {
-            $object = new BillLine();
-            $object->setBill($_em->getRepository('UnrtechEasybillBundle:BaseBill')->find($parent));
-        }
+        $bill = $_em->getRepository('UnrtechEasybillBundle:BaseBill')->find($parent);
+        $this->get('memcache')->set('current_bill_'.$this->getUser(), $bill, false, 10);
+        $object = new BillLine();
         
         $form = $this->createForm(new BillLineType($this->container), $object);
         
         $form->handleRequest($request);
         if ($form->isValid()) {
-            if (null === $object->getId()) {
-                $_em->persist($object);
-            }
-            
+            $_em->persist($object);
+            $bill->addLine($object);
             $_em->flush();
             
             return $this->redirect($this->generateUrl('path_view_bill', array('id' => $parent)));
         }
 
-        $form->handleRequest($request);
-        $formHanlder = new FormHandler($form, $request, $this->container);
+        return $this->render('UnrtechEasybillBundle:Form:form_line.html.twig', array(
+            'form' => $form->createView(),
+            'parent' => $parent,
+            'action' => 'create'
+        ));
+    }
 
-        $processData = $formHanlder->process();
+    /**
+     * @Route("/form/render/bill_line/{id}-{parent}/edit", name="path_form_bill_line_edit")
+     */
+    public function billLineEditAction(Request $request, $id, $parent) {
+        $_em = $this->getDoctrine()->getManager();
         
-        if ($processData) {
+        $object = $this->get('memcache')->get('current_bill_'.$this->getUser());
+        if (!$object) {
+            $object = $_em->getRepository('UnrtechEasybillBundle:BillLine')->find($id);
+        } else {
+            var_dump($this->get('memcache')->get('current_bill_'.$this->getUser()));
+            die();
+        }
+        
+        $form = $this->createForm(new BillLineType($this->container), $object);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $_em->flush();
             
-            return $this->redirect($this->generateUrl('path_view_bill', array('id' => $processData->getBill()->getId())));
+            return $this->redirect($this->generateUrl('path_view_bill', array('id' => $parent)));
         }
 
         return $this->render('UnrtechEasybillBundle:Form:form_line.html.twig', array(
             'form' => $form->createView(),
             'id' => $id,
-            'parent' => $parent
+            'parent' => $parent,
+            'action' => 'edit'
         ));
     }
     
