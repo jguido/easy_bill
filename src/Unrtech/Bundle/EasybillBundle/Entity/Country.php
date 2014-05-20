@@ -55,13 +55,6 @@ class Country
      * @ORM\Column(name="date_format", type="string", length=20, nullable=true)
      */
     private $dateFormat;
-    
-    /**
-     * @var \Unrtech\Bundle\EasybillBundle\Entity\Address
-     * 
-     * @ORM\OneToMany(targetEntity="Unrtech\Bundle\EasybillBundle\Entity\Address", mappedBy="country")
-     */
-    private $addresses;
 
 
     /**
@@ -165,13 +158,6 @@ class Country
     {
         return $this->dateFormat;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->addresses = new \Doctrine\Common\Collections\ArrayCollection();
-    }
     
     /**
      * Set code
@@ -194,39 +180,6 @@ class Country
     public function getCode()
     {
         return $this->code;
-    }
-
-    /**
-     * Add addresses
-     *
-     * @param \Unrtech\Bundle\EasybillBundle\Entity\Address $addresses
-     * @return Country
-     */
-    public function addAddresse(\Unrtech\Bundle\EasybillBundle\Entity\Address $addresses)
-    {
-        $this->addresses[] = $addresses;
-    
-        return $this;
-    }
-
-    /**
-     * Remove addresses
-     *
-     * @param \Unrtech\Bundle\EasybillBundle\Entity\Address $addresses
-     */
-    public function removeAddresse(\Unrtech\Bundle\EasybillBundle\Entity\Address $addresses)
-    {
-        $this->addresses->removeElement($addresses);
-    }
-
-    /**
-     * Get addresses
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getAddresses()
-    {
-        return $this->addresses;
     }
     
     public function __toString() {

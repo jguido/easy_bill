@@ -10,6 +10,10 @@ use Unrtech\Bundle\EasybillBundle\Entity\BaseBill;
 use Unrtech\Bundle\EasybillBundle\Form\Type\BillType;
 use Unrtech\Bundle\EasybillBundle\Entity\BillLine;
 use Unrtech\Bundle\EasybillBundle\Form\Type\BillLineType;
+use Unrtech\Bundle\EasybillBundle\Entity\Customer;
+use Unrtech\Bundle\EasybillBundle\Form\Type\CustomerType;
+use Unrtech\Bundle\EasybillBundle\Entity\Company;
+use Unrtech\Bundle\EasybillBundle\Form\Type\CompanyType;
 use Unrtech\Bundle\EasybillBundle\Form\Handler\FormHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
@@ -99,13 +103,7 @@ class FormController extends Controller {
     public function billLineEditAction(Request $request, $id, $parent) {
         $_em = $this->getDoctrine()->getManager();
         
-        $object = $this->get('memcache')->get('current_bill_'.$this->getUser());
-        if (!$object) {
-            $object = $_em->getRepository('UnrtechEasybillBundle:BillLine')->find($id);
-        } else {
-            var_dump($this->get('memcache')->get('current_bill_'.$this->getUser()));
-            die();
-        }
+        $object = $_em->getRepository('UnrtechEasybillBundle:BillLine')->find($id);
         
         $form = $this->createForm(new BillLineType($this->container), $object);
         $form->handleRequest($request);
@@ -134,6 +132,102 @@ class FormController extends Controller {
         $_em->flush();
         
         return $this->redirect($this->generateUrl('path_view_bill', array('id' => $billId)));
+    }
+    
+    /**
+     * @Route("/form/render/customer/create", name="path_form_customer_create")
+     */
+    public function createCustomerAction(Request $request) {
+        $_em = $this->getDoctrine()->getManager();
+        
+        $object = new Customer();
+        
+        $form = $this->createForm(new CustomerType($this->container), $object);
+        
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $_em->persist($object);
+            $_em->flush();
+            
+            return $this->redirect($this->generateUrl('path_customers'));
+        }
+
+        return $this->render('UnrtechEasybillBundle:Form:form_customer.html.twig', array(
+            'form' => $form->createView(),
+            'action' => 'create'
+        ));
+    }
+    
+    /**
+     * @Route("/form/render/customer/edit/{id}", name="path_form_customer_edit")
+     */
+    public function editCustomerAction(Request $request, $id) {
+        $_em = $this->getDoctrine()->getManager();
+        
+        $object = $_em->getRepository('UnrtechEasybillBundle:Customer')->find($id);
+        
+        $form = $this->createForm(new CustomerType($this->container), $object);
+        
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $_em->flush();
+            
+            return $this->redirect($this->generateUrl('path_customers'));
+        }
+
+        return $this->render('UnrtechEasybillBundle:Form:form_customer.html.twig', array(
+            'form' => $form->createView(),
+            'id' => $id,
+            'action' => 'edit'
+        ));
+    }
+    
+    /**
+     * @Route("/form/render/company/create", name="path_form_company_create")
+     */
+    public function createCompanyAction(Request $request) {
+        $_em = $this->getDoctrine()->getManager();
+        
+        $object = new Company();
+        
+        $form = $this->createForm(new CompanyType($this->container), $object);
+        
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $_em->persist($object);
+            $_em->flush();
+            
+            return $this->redirect($this->generateUrl('path_parameters'));
+        }
+
+        return $this->render('UnrtechEasybillBundle:Form:form_company.html.twig', array(
+            'form' => $form->createView(),
+            'action' => 'create'
+        ));
+    }
+    
+    /**
+     * @Route("/form/render/company/edit/{id}", name="path_form_company_edit")
+     */
+    public function editCompanyAction(Request $request, $id) {
+        $_em = $this->getDoctrine()->getManager();
+        
+        $object = $_em->getRepository('UnrtechEasybillBundle:Company')->find($id);
+        
+        $form = $this->createForm(new CompanyType($this->container), $object);
+        
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $_em->flush();
+            
+            return $this->redirect($this->generateUrl('path_parameters'));
+        }
+
+        return $this->render('UnrtechEasybillBundle:Form:form_company.html.twig', array(
+            'form' => $form->createView(),
+            'id' => $id,
+            'action' => 'edit'
+        ));
     }
 
 }

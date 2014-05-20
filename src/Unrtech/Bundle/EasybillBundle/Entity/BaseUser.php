@@ -12,7 +12,7 @@ use FOS\UserBundle\Entity\User as FosBaseUser;
  * @ORM\Entity()
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"super_admin" = "SuperAdmin"})
+ * @ORM\DiscriminatorMap({"super_admin" = "SuperAdmin", "bill_user" = "BillUser"})
  */
 abstract class BaseUser extends FosBaseUser
 {
@@ -52,13 +52,6 @@ abstract class BaseUser extends FosBaseUser
      * @ORM\Column(name="mobile", nullable=true)
      */
     protected $mobile;
-    
-    /**
-     * @var Unrtech\Bundle\EasybillBundle\Entity\Address
-     * 
-     * @ORM\ManyToOne(targetEntity="Unrtech\Bundle\EasybillBundle\Entity\Address")
-     */
-    protected $billingAddress;
 
 
     /**
@@ -69,29 +62,6 @@ abstract class BaseUser extends FosBaseUser
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set billingAddress
-     *
-     * @param \Unrtech\Bundle\EasybillBundle\Entity\Address $billingAddress
-     * @return User
-     */
-    public function setBillingAddress(\Unrtech\Bundle\EasybillBundle\Entity\Address $billingAddress = null)
-    {
-        $this->billingAddress = $billingAddress;
-    
-        return $this;
-    }
-
-    /**
-     * Get billingAddress
-     *
-     * @return \Unrtech\Bundle\EasybillBundle\Entity\Address 
-     */
-    public function getBillingAddress()
-    {
-        return $this->billingAddress;
     }
 
     /**

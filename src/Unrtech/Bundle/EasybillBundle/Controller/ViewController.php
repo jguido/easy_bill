@@ -35,6 +35,16 @@ class ViewController extends Controller
     }
     
     /**
+     * @Route("/customers", name="path_customers")
+     */
+    public function customersAction()
+    {
+        $entities = $this->getDoctrine()->getManager()->getRepository('UnrtechEasybillBundle:Customer')->findAll();
+        
+        return $this->render('UnrtechEasybillBundle:Customer:customers.html.twig', array('customers' => $entities));
+    }
+    
+    /**
      * @Route("/bill/{id}", name="path_view_bill")
      */
     public function viewAction($id) {

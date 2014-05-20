@@ -1,0 +1,29 @@
+{% extends "UnrtechEasybillBundle:Default:base.html.twig" %}
+
+{% block title %}{% if title is defined %}{{ title|trans({},'UnrtechEasybillBundle') }}{% else %}{{ parent() }}{% endif %}{% endblock title %}
+
+{% block stylesheets %}{{ parent() }}{% endblock %}
+
+{% block content %}
+    {% if form is defined %}
+        <div class="col-xs-8">
+            <form action="{% if action == 'edit' %}{{ path('path_form_customer_edit', {'id':id}) }}{% else %}{{ path('path_form_customer_create') }}{% endif %}" method="post" {{ form_enctype(form) }} class="form-horizontal span8">
+                {{ form_rest(form) }}
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+{% endblock footer %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        jQuery(function($){
+            $('button.return-list').unbind('click').click(function(){
+                document.location.href = $('.navbar-brand:eq(3)').attr('href');
+            });
+        });
+    </script>
+{% endblock %}

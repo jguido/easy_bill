@@ -1,0 +1,7 @@
+{% if form is defined %}
+    <div class="span8">
+        <form action="{% if action == 'edit' %}{{ path('path_form_company_edit', {'id':id}) }}{% else %}{{ path('path_form_company_create') }}{% endif %}" method="post" {{ form_enctype(form) }} class="form-horizontal span8">
+            {{ form_rest(form) }}
+        </form>
+    </div>
+{% endif %}

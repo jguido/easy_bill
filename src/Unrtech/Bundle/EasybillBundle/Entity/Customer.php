@@ -3,8 +3,8 @@ namespace Unrtech\Bundle\EasybillBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Unrtech\Bundle\EasybillBundle\Entity\Address;
 use Unrtech\Bundle\EasybillBundle\Entity\BaseBill;
+use Unrtech\Bundle\EasybillBundle\Entity\Country;
 
 /**
  * Description of Customer
@@ -39,7 +39,7 @@ class Customer {
     /**
      * @var string
      * 
-     * @ORM\Column(name="mobile", type="string", length=15)
+     * @ORM\Column(name="mobile", type="string", length=15, nullable=true)
      */
     private $mobile;
     
@@ -71,15 +71,55 @@ class Customer {
     private $bills;
     
     /**
-     *
-     * @var Unrtech\Bundle\EasybillBundle\Entity\Address
+     * @var string
      * 
-     * @ORM\ManyToOne(targetEntity="Unrtech\Bundle\EasybillBundle\Entity\Address")
+     * @ORM\Column(name="address_1", type="string", length=255)
      */
-    private $address;
+    private $address1;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="address_2", type="string", length=255, nullable=true)
+     */
+    private $address2;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="bp", type="string", length=255, nullable=true)
+     */
+    private $bp;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="cp", type="string", length=255)
+     */
+    private $cp;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="city", type="string", length=255)
+     */
+    private $city;
+    
+    /**
+     * @var Unrtech\Bundle\EasybillBundle\Entity\Country
+     * 
+     * @ORM\ManyToOne(targetEntity="Unrtech\Bundle\EasybillBundle\Entity\Country")
+     */
+    private $country;
     
     public function __construct() {
         $this->bills = new ArrayCollection();
+    }
+    
+    public function setId($id) {
+        $this->id = $id;
+        
+        return $this;
     }
     
     /**
@@ -288,26 +328,143 @@ class Customer {
     }
     
     /**
-     * Set the address
+     * Set address1
      * 
-     * @param \Unrtech\Bundle\EasybillBundle\Entity\Address $address
+     * @param string $adr
      * 
      * @return \Unrtech\Bundle\EasybillBundle\Entity\Customer
      */
-    public function setAddress(Address $address) {
-        $this->address = $address;
+    public function setAddress1($adr) {
+        $this->address1 = $adr;
         
         return $this;
     }
     
     /**
-     * Get the address
+     * Get address1
      * 
-     * @return \Unrtech\Bundle\EasybillBundle\Entity\Address
+     * @return string
      */
-    public function getAddress() {
+    public function getAddress1() {
         
-        return $this->address;
+        return $this->address1;
+    }
+    
+    /**
+     * Set address2
+     * 
+     * @param string $adr
+     * 
+     * @return \Unrtech\Bundle\EasybillBundle\Entity\Customer
+     */
+    public function setAddress2($adr) {
+        $this->address2 = $adr;
+        
+        return $this;
+    }
+    
+    /**
+     * Get address2
+     * 
+     * @return string
+     */
+    public function getAddress2() {
+        
+        return $this->address2;
+    }
+    
+    /**
+     * Set BP
+     * 
+     * @param string $bp
+     * 
+     * @return \Unrtech\Bundle\EasybillBundle\Entity\Customer
+     */
+    public function setBp($bp) {
+        $this->bp = $bp;
+        
+        return $this;
+    }
+    
+    /**
+     * Get BP
+     * 
+     * @return string
+     */
+    public function getBp() {
+        
+        return $this->bp;
+    }
+    
+    /**
+     * Set CP
+     * 
+     * @param string $cp
+     * 
+     * @return \Unrtech\Bundle\EasybillBundle\Entity\Customer
+     */
+    public function setCp($cp) {
+        $this->cp = $cp;
+        
+        return $this;
+    }
+    
+    /**
+     * Get CP
+     * 
+     * @return string
+     */
+    public function getCp() {
+        
+        return $this->cp;
+    }
+    
+    /**
+     * Set city
+     * 
+     * @param string $city
+     * 
+     * @return \Unrtech\Bundle\EasybillBundle\Entity\Customer
+     */
+    public function setCity($city) {
+        
+        $this->city = $city;
+        
+        return $this;
+    }
+    
+    /**
+     * Get city
+     * 
+     * @return string
+     */
+    public function getCity() {
+        
+        return $this->city;
+    }
+
+    /**
+     * Set country
+     *
+     * @param \UnrTech\Bundle\EasybillBundle\Entity\Country $country
+     * 
+     * @return Customer
+     */
+    public function setCountry(Country $country)
+    {
+        $this->country = $country;
+    
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return \UnrTech\Bundle\EasybillBundle\Entity\Country 
+     */
+    public function getCountry()
+    {
+        return $this->country;
     }
     
     public function __toString() {

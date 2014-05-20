@@ -7,7 +7,6 @@ use Unrtech\Bundle\EasybillBundle\Entity\BaseBill;
 use Unrtech\Bundle\EasybillBundle\Entity\BillLine;
 use Unrtech\Bundle\EasybillBundle\Entity\BillStatus;
 use Unrtech\Bundle\EasybillBundle\Entity\Payment;
-use Unrtech\Bundle\EasybillBundle\Entity\Address;
 use Unrtech\Bundle\EasybillBundle\Entity\Customer;
 
 /**
@@ -31,15 +30,9 @@ class LoadBillData implements FixtureInterface {
     private $customers;
 
     public function load(\Doctrine\Common\Persistence\ObjectManager $manager) {
+        $country = $manager->getRepository('UnrtechEasybillBundle:Country')->findOneBy(array('code' => 'FR'));
         
         foreach (range(1, 10) as $a) {
-            $address = new Address();
-            $address
-                    ->setAddress1($a.', rue x')
-                    ->setAddress2('le truc')
-                    ->setPostCode('06400')
-                    ->setCity('Cannes');
-            $manager->persist($address);
             $customer = new Customer();
             $customer
                     ->setReference('ref-123-'.$a)
@@ -48,7 +41,12 @@ class LoadBillData implements FixtureInterface {
                     ->SetMobile('0606060606')
                     ->setMail('customer'.$a.'@mail.fr')
                     ->setSiret('12345678900011')
-                    ->setAddress($address);
+                    ->setAddress1($a.', rue x')
+                    ->setAddress2('le truc')
+                    ->setCp('06400')
+                    ->setCity('Cannes')
+                    ->setCountry($country);
+            
             $manager->persist($customer);
         }
         

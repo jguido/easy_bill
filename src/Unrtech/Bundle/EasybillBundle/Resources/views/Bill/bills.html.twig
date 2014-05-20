@@ -30,8 +30,8 @@
                                 <td>{{ bill.creationDate|date("d-m-Y") }}</td>
                                 <td>{{ bill.updateDate|date("d-m-Y") }}</td>
                                 <td>
-                                    <a class="btn btn-success" href="{{ path('path_form_bill_edit', {'id': bill.id}) }}">Edit</a>
-                                    <a class="btn btn-primary" href="{{ path('path_view_bill', {'id': bill.id}) }}">View</a>
+                                    <a class="btn btn-success glyphicon glyphicon-pencil" href="{{ path('path_form_bill_edit', {'id': bill.id}) }}"></a>
+                                    <a class="btn btn-primary glyphicon glyphicon-eye-open" href="{{ path('path_view_bill', {'id': bill.id}) }}"></a>
                                 </td>
                             </tr>
                         {% endfor %}

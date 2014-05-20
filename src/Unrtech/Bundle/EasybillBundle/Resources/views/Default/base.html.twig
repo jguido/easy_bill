@@ -20,7 +20,7 @@
                     {% block nav %}
                         {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand" href="{{ path('path_form_bill_create') }}" title="New Bill"><span class="glyphicon glyphicon-plus"></span></a>{% endif %}
                     {% endblock nav %}
-                        {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand" href="#" title="Customer list"><span class="glyphicon glyphicon-user"></span></a>{% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand" href="{{ path('path_customers') }}" title="Customer list"><span class="glyphicon glyphicon-user"></span></a>{% endif %}
                         {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand" href="#" title="Parameters"><span class="glyphicon glyphicon-wrench"></span></a>{% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
                         <a class="navbar-brand" href="{{ path('fos_user_security_logout') }}" title="Logout"><span class="glyphicon glyphicon-log-out"></span></a>

@@ -18,37 +18,9 @@ class SuperAdmin extends UserBase {
      */
     protected $id;
     
-    /**
-     * @ORM\Column(name="siren", type="string")
-     * @var string
-     */
-    protected $siren;
-    
     public function __construct() {
         parent::__construct();
         $this->addRole('SUPER_ADMIN');
         $this->setSuperAdmin(true);
-    }
-    
-    /**
-     * Set siren
-     * 
-     * @param string $siren
-     * @return \Unrtech\Bundle\EasybillBundle\Entity\SuperAdmin
-     */
-    public function setSiren($siren) {
-        $this->siren = $siren;
-        
-        return $this;
-    }
-    
-    /**
-     * Get siren
-     * 
-     * @return string
-     */
-    public function getSiren() {
-        
-        return $this->siren;
     }
 }

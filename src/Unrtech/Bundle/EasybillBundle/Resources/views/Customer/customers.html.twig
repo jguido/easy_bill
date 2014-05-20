@@ -1,0 +1,46 @@
+{% extends "UnrtechEasybillBundle:Default:base.html.twig" %}
+
+{% block title %}{% if title is defined %}{{ title|trans({},'UnrtechEasybillBundle') }}{% else %}{{ parent() }}{% endif %}{% endblock title %}
+
+{% block stylesheets %}{{ parent() }}{% endblock %}
+
+{% block content %}
+    <div class="row-fluid">
+        <div class="col-xs-10">
+            <table class="table table-responsive table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Dénomination</th>
+                        <th>CP</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if customers is defined and customers|length > 0%}
+                        {% for customer in customers %}
+                            <tr data-id="{{ customer.id }}">
+                                <td>{{ customer.denomination }}</td>
+                                <td>{{ customer.cp }}</td>
+                                <td>{{ customer.city }}</td>
+                                <td>{{ customer.country }}</td>
+                                <td>
+                                    <a class="btn btn-success glyphicon glyphicon-pencil" href="{{ path('path_form_customer_edit', {'id': customer.id}) }}"></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock footer %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
