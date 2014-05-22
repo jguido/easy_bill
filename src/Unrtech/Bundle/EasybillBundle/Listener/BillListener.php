@@ -25,7 +25,7 @@ class BillListener {
             $token = $this->_container->get('security.context')->getToken();
             if ($token) {
                 $company = $token->getUser()->getCompany();
-                if (!$token->getUser() instanceof Unrtech\Bundle\EasybillBundle\Entity\SuperAdmin) {
+                if (!$token->getUser() instanceof \Unrtech\Bundle\EasybillBundle\Entity\SuperAdmin) {
                     if ($entity instanceof BaseBill) {
                         try {
                             $entity->setCompany($company);
@@ -45,7 +45,7 @@ class BillListener {
         if (null !== $this->_container->get('security.context')) {
             $token = $this->_container->get('security.context')->getToken();
             if ($token) {
-                if (!$token->getUser() instanceof Unrtech\Bundle\EasybillBundle\Entity\SuperAdmin) {
+                if (!$token->getUser() instanceof \Unrtech\Bundle\EasybillBundle\Entity\SuperAdmin) {
                     $company = $token->getUser()->getCompany();
                     if ($entity instanceof BaseBill) {
                         try {
