@@ -1,7 +1,8 @@
 <?php
 namespace Unrtech\Bundle\EasybillBundle\Fixtures;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Unrtech\Bundle\EasybillBundle\Entity\SuperAdmin;
 use Unrtech\Bundle\EasybillBundle\Entity\BillUser;
 use Unrtech\Bundle\EasybillBundle\Entity\Company;
@@ -12,7 +13,7 @@ use Unrtech\Bundle\EasybillBundle\Entity\Country;
  *
  * @author jeremy
  */
-class LoadUserData implements FixtureInterface{
+class LoadUserData extends AbstractFixture implements OrderedFixtureInterface{
     public function load(\Doctrine\Common\Persistence\ObjectManager $manager) {
         
         $this->loadCountry($manager);
@@ -334,6 +335,11 @@ class LoadUserData implements FixtureInterface{
             $manager->flush();
         }
     }
+
+    public function getOrder() {
+        return 1;
+    }
+
 }
 
 ?>

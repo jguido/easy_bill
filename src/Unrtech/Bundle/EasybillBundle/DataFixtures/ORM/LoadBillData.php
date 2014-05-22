@@ -2,7 +2,8 @@
 
 namespace Unrtech\Bundle\EasybillBundle\Fixtures;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Unrtech\Bundle\EasybillBundle\Entity\BaseBill;
 use Unrtech\Bundle\EasybillBundle\Entity\BillLine;
 use Unrtech\Bundle\EasybillBundle\Entity\BillStatus;
@@ -14,7 +15,7 @@ use Unrtech\Bundle\EasybillBundle\Entity\Customer;
  *
  * @author jeremy
  */
-class LoadBillData implements FixtureInterface {
+class LoadBillData extends AbstractFixture implements OrderedFixtureInterface {
 
     private $arrStatus = array(
         'CREATE' => 'Created',
@@ -102,6 +103,10 @@ class LoadBillData implements FixtureInterface {
         }
         
         $manager->flush();
+    }
+
+    public function getOrder() {
+        return 3;
     }
 
 }
