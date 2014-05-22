@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Unrtech\Bundle\EasybillBundle\Entity\BaseBill;
 use Unrtech\Bundle\EasybillBundle\Entity\Country;
+use Unrtech\Bundle\EasybillBundle\Entity\Company;
 
 /**
  * Description of Customer
@@ -111,6 +112,13 @@ class Customer {
      * @ORM\ManyToOne(targetEntity="Unrtech\Bundle\EasybillBundle\Entity\Country")
      */
     private $country;
+    
+    /**
+     * @var Unrtech\Bundle\EasybillBundle\Entity\Company
+     * 
+     * @ORM\ManyToOne(targetEntity="Unrtech\Bundle\EasybillBundle\Entity\Company", inversedBy="customers")
+     */
+    private $company;
     
     public function __construct() {
         $this->bills = new ArrayCollection();
@@ -465,6 +473,30 @@ class Customer {
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * Set company
+     *
+     * @param \UnrTech\Bundle\EasybillBundle\Entity\Company $company
+     * 
+     * @return Customer
+     */
+    public function setCompany(Company $company)
+    {
+        $this->company = $company;
+    
+        return $this;
+    }
+
+    /**
+     * Get company
+     *
+     * @return \UnrTech\Bundle\EasybillBundle\Entity\Company 
+     */
+    public function getCompany()
+    {
+        return $this->company;
     }
     
     public function __toString() {

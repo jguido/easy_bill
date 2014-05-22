@@ -29,11 +29,15 @@ class LoadBillData extends AbstractFixture implements OrderedFixtureInterface {
         'CHE' => 'Chèque',
     );
     private $customers;
+    private $companies;
 
     public function load(\Doctrine\Common\Persistence\ObjectManager $manager) {
+        $this->companies = $manager->getRepository('UnrtechEasybillBundle:Company')->findAll();
+        
         $country = $manager->getRepository('UnrtechEasybillBundle:Country')->findOneBy(array('code' => 'FR'));
         
         foreach (range(1, 10) as $a) {
+            $company = $this->companies[mt_rand(0, count($this->companies)-1)];
             $customer = new Customer();
             $customer
                     ->setReference('ref-123-'.$a)
@@ -49,6 +53,7 @@ class LoadBillData extends AbstractFixture implements OrderedFixtureInterface {
                     ->setCountry($country);
             
             $manager->persist($customer);
+            $company->addCustomer($customer);
         }
         
         foreach ($this->arrStatus as $code => $name) {
@@ -74,9 +79,12 @@ class LoadBillData extends AbstractFixture implements OrderedFixtureInterface {
         $this->customers = $manager->getRepository('UnrtechEasybillBundle:Customer')->findAll();
         
         foreach (range(0, 10) as $i) {
+            $company = $this->companies[mt_rand(0, count($this->companies)-1)];
+            $customer = $this->customers[mt_rand(0, count($this->customers)-1)];
             $bill = new BaseBill();
             $bill
-                    ->setCustomer($this->customers[mt_rand(0, count($this->arrPayment)-1)])
+                    ->setCustomer($customer)
+                    ->setCompany($company)
                     ->setPayment($this->arrPayment[mt_rand(0, count($this->arrPayment)-1)])
                     ->setReference('1234-'.$i)
                     ->setStatus($this->arrStatus[mt_rand(0, count($this->arrStatus)-1)])
@@ -84,6 +92,9 @@ class LoadBillData extends AbstractFixture implements OrderedFixtureInterface {
                     ->setTotalHt(0);
             
             $manager->persist($bill);
+            
+            $company
+                    ->addBill($bill);
             foreach (range(0, 10) as $j) {
                 $qty = mt_rand(1, 10);
                 $unity = mt_rand(10, 200);

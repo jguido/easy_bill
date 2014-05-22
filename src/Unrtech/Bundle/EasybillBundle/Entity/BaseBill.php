@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Unrtech\Bundle\EasybillBundle\Entity\Customer;
+use Unrtech\Bundle\EasybillBundle\Entity\Company;
 use Unrtech\Bundle\EasybillBundle\Entity\BillLine;
 use Unrtech\Bundle\EasybillBundle\Entity\Payment;
 use Unrtech\Bundle\EasybillBundle\Entity\BillStatus;
@@ -92,6 +93,13 @@ class BaseBill
      * @ORM\ManyToOne(targetEntity="Unrtech\Bundle\EasybillBundle\Entity\Customer", inversedBy="bills")
      */
     private $customer;
+    
+    /**
+     * @var Company
+     * 
+     * @ORM\ManyToOne(targetEntity="Unrtech\Bundle\EasybillBundle\Entity\Company", inversedBy="bills")
+     */
+    private $company;
     
     /**
      * @var Unrtech\Bundle\EasybillBundle\Entity\BillLine
@@ -343,6 +351,29 @@ class BaseBill
     public function getCustomer() {
         
         return $this->customer;
+    }
+
+    /**
+     * Set company
+     * 
+     * @param \Unrtech\Bundle\EasybillBundle\Entity\Company $company
+     * 
+     * @return \Unrtech\Bundle\EasybillBundle\Entity\BaseBill
+     */
+    public function setCompany(Company $company = null){
+        $this->company = $company;
+        
+        return $this;
+    }
+    
+    /**
+     * Get company
+     * 
+     * @return Unrtech\Bundle\EasybillBundle\Entity\Company
+     */
+    public function getCompany() {
+        
+        return $this->company;
     }
     
     /**

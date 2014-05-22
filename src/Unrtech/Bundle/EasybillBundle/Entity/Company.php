@@ -6,6 +6,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Unrtech\Bundle\EasybillBundle\Entity\Country;
 use Doctrine\Common\Collections\ArrayCollection;
 use Unrtech\Bundle\EasybillBundle\Entity\BillUser;
+use Unrtech\Bundle\EasybillBundle\Entity\BaseBill;
+use Unrtech\Bundle\EasybillBundle\Entity\Customer;
 
 /**
  * Description of Customer
@@ -105,8 +107,24 @@ class Company {
      */
     private $users;
     
+    /**
+     * @var ArrayCollection
+     * 
+     * @ORM\OneToMany(targetEntity="Unrtech\Bundle\EasybillBundle\Entity\BaseBill", mappedBy="company")
+     */
+    private $bills;
+    
+    /**
+     * @var ArrayCollection
+     * 
+     * @ORM\OneToMany(targetEntity="Unrtech\Bundle\EasybillBundle\Entity\Customer", mappedBy="company")
+     */
+    private $customers;
+    
     public function __construct() {
         $this->users = new ArrayCollection();
+        $this->bills = new ArrayCollection();
+        $this->customers = new ArrayCollection();
     }
     
 
@@ -415,6 +433,136 @@ class Company {
     public function getUsers() {
         
         return $this->users;
+    }
+    
+    /**
+     * Set bills
+     * 
+     * @param ArrayCollection $bills
+     * 
+     * @return \Unrtech\Bundle\EasybillBundle\Entity\Company
+     */
+    public function setBills($bills) {
+        if (count($bills) > 0) {
+            foreach ($bills as $bill) {
+                $this->addBill($bill);
+            }
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Add one bill
+     * 
+     * @param \Unrtech\Bundle\EasybillBundle\Entity\BaseBill $bill
+     * 
+     * @return \Unrtech\Bundle\EasybillBundle\Entity\Company
+     */
+    public function addBill(BaseBill $bill) {
+        $bill->setCompany($this);
+        $this->bills->add($bill);
+        
+        return $this;
+    }
+    
+    /**
+     * Remove one bill
+     * 
+     * @param \Unrtech\Bundle\EasybillBundle\Entity\BaseBill $bill
+     * 
+     * @return \Unrtech\Bundle\EasybillBundle\Entity\Company
+     */
+    public function removeBill(BaseBill $bill) {
+        $this->users->removeElement($user);
+        
+        return $this;
+    }
+    
+    /**
+     * Clear all bills
+     * 
+     * @return \Unrtech\Bundle\EasybillBundle\Entity\Company
+     */
+    public function clearBills() {
+        $this->bills->clear();
+        
+        return $this;
+    }
+    
+    /**
+     * Get all bills
+     * 
+     * @return ArrayCollection
+     */
+    public function getBills() {
+        
+        return $this->bills;
+    }
+    
+    /**
+     * Set customer
+     * 
+     * @param ArrayCollection $customers
+     * 
+     * @return \Unrtech\Bundle\EasybillBundle\Entity\Company
+     */
+    public function setCustomers($customers) {
+        if (count($customers) > 0) {
+            foreach ($customers as $customer) {
+                $this->addCustomer($customer);
+            }
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Add one customer
+     * 
+     * @param \Unrtech\Bundle\EasybillBundle\Entity\Customer $customer
+     * 
+     * @return \Unrtech\Bundle\EasybillBundle\Entity\Company
+     */
+    public function addCustomer(Customer $customer) {
+        $customer->setCompany($this);
+        $this->customers->add($customer);
+        
+        return $this;
+    }
+    
+    /**
+     * Remove one customer
+     * 
+     * @param \Unrtech\Bundle\EasybillBundle\Entity\Customer $customer
+     * 
+     * @return \Unrtech\Bundle\EasybillBundle\Entity\Company
+     */
+    public function removeCustomer(Customer $customer) {
+        $this->customers->removeElement($customer);
+        
+        return $this;
+    }
+    
+    /**
+     * Clear all customers
+     * 
+     * @return \Unrtech\Bundle\EasybillBundle\Entity\Company
+     */
+    public function clearCustomers() {
+        $this->customers->clear();
+        
+        return $this;
+    }
+    
+    /**
+     * Get all customers
+     * 
+     * @return ArrayCollection
+     */
+    public function getCustomers() {
+        
+        return $this->customers;
     }
     
     public function __toString() {

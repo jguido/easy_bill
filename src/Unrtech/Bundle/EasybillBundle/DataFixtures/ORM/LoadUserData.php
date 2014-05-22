@@ -37,8 +37,18 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface{
                 ->setPlainPassword('bill')
                 ->setEnabled(true);
         
+        $billUser1 = new BillUser();
+        $billUser1
+                ->setFirstname('Tom')
+                ->setLastname('Tom')
+                ->setUsername('tom')
+                ->setEmail('jeremyguido@yahoo.fr')
+                ->setPlainPassword('tom')
+                ->setEnabled(true);
+        
         $manager->persist($superAdmin);
         $manager->persist($billUser);
+        $manager->persist($billUser1);
         $manager->flush();
         
         $company = new Company();
@@ -52,7 +62,19 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface{
                 ->setCity('Valbonne')
                 ->setCountry($country);
         
+        $company1 = new Company();
+        $company1
+                ->setName('GPS corp')
+                ->setReference('GPSC')
+                ->setSiren('987654321')
+                ->addUser($billUser1)
+                ->setAddress1('2, avenue des champs élysées')
+                ->setCp('75000')
+                ->setCity('Paris')
+                ->setCountry($country);
+        
         $manager->persist($company);
+        $manager->persist($company1);
         
         $manager->flush();
     }

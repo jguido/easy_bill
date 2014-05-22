@@ -51,6 +51,15 @@ class FormController extends Controller {
         $_em = $this->getDoctrine()->getManager();
         $object = $_em->getRepository('UnrtechEasybillBundle:BaseBill')->find($id);
         
+        $currentUSer = $this->get('security.context')->getToken()->getUser();
+        if (!$currentUSer) {
+            return $this->redirect($this->generateUrl('fos_user_security_logout'));
+        } else if ($currentUSer instanceof \Unrtech\Bundle\EasybillBundle\Entity\BillUser) {
+            if (!$this->get('security.context')->getToken()->getUser()->getCompany()->getBills()->contains($object)) {
+                return $this->redirect($this->generateUrl('fos_user_security_logout'));
+            }
+        }
+        
         $form = $this->createForm(new BillType($this->container), $object);
         
         $form->handleRequest($request);
@@ -76,6 +85,16 @@ class FormController extends Controller {
         $_em = $this->getDoctrine()->getManager();
         
         $bill = $_em->getRepository('UnrtechEasybillBundle:BaseBill')->find($parent);
+        
+        $currentUSer = $this->get('security.context')->getToken()->getUser();
+        if (!$currentUSer) {
+            return $this->redirect($this->generateUrl('fos_user_security_logout'));
+        } else if ($currentUSer instanceof \Unrtech\Bundle\EasybillBundle\Entity\BillUser) {
+            if (!$this->get('security.context')->getToken()->getUser()->getCompany()->getBills()->contains($bill)) {
+                return $this->redirect($this->generateUrl('fos_user_security_logout'));
+            }
+        }        
+        
         $this->get('memcache')->set('current_bill_'.$this->getUser(), $bill, false, 10);
         $object = new BillLine();
         
@@ -105,6 +124,16 @@ class FormController extends Controller {
         
         $object = $_em->getRepository('UnrtechEasybillBundle:BillLine')->find($id);
         
+        
+        $currentUSer = $this->get('security.context')->getToken()->getUser();
+        if (!$currentUSer) {
+            return $this->redirect($this->generateUrl('fos_user_security_logout'));
+        } else if ($currentUSer instanceof \Unrtech\Bundle\EasybillBundle\Entity\BillUser) {
+            if (!$this->get('security.context')->getToken()->getUser()->getCompany()->getBills()->contains($object)) {
+                return $this->redirect($this->generateUrl('fos_user_security_logout'));
+            }
+        }
+        
         $form = $this->createForm(new BillLineType($this->container), $object);
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -127,6 +156,16 @@ class FormController extends Controller {
      */
     public function removeLineAction($line) {
         $_em = $this->getDoctrine()->getManager();
+        
+        $currentUSer = $this->get('security.context')->getToken()->getUser();
+        if (!$currentUSer) {
+            return $this->redirect($this->generateUrl('fos_user_security_logout'));
+        } else if ($currentUSer instanceof \Unrtech\Bundle\EasybillBundle\Entity\BillUser) {
+            if (!$this->get('security.context')->getToken()->getUser()->getCompany()->getBills()->contains($line->getBill())) {
+                return $this->redirect($this->generateUrl('fos_user_security_logout'));
+            }
+        }
+        
         $billId = $line->getBill()->getId();
         $_em->remove($line);
         $_em->flush();
@@ -165,6 +204,16 @@ class FormController extends Controller {
         $_em = $this->getDoctrine()->getManager();
         
         $object = $_em->getRepository('UnrtechEasybillBundle:Customer')->find($id);
+        
+        
+        $currentUSer = $this->get('security.context')->getToken()->getUser();
+        if (!$currentUSer) {
+            return $this->redirect($this->generateUrl('fos_user_security_logout'));
+        } else if ($currentUSer instanceof \Unrtech\Bundle\EasybillBundle\Entity\BillUser) {
+            if (!$this->get('security.context')->getToken()->getUser()->getCompany()->getCustomers()->contains($object)) {
+                return $this->redirect($this->generateUrl('fos_user_security_logout'));
+            }
+        }
         
         $form = $this->createForm(new CustomerType($this->container), $object);
         
@@ -214,6 +263,15 @@ class FormController extends Controller {
         
         $object = $_em->getRepository('UnrtechEasybillBundle:Company')->find($id);
         
+        $currentUSer = $this->get('security.context')->getToken()->getUser();
+        if (!$currentUSer) {
+            return $this->redirect($this->generateUrl('fos_user_security_logout'));
+        } else if ($currentUSer instanceof \Unrtech\Bundle\EasybillBundle\Entity\BillUser) {
+            if (!$this->get('security.context')->getToken()->getUser()->getCompany()=== $object) {
+                return $this->redirect($this->generateUrl('fos_user_security_logout'));
+            }
+        }
+                
         $form = $this->createForm(new CompanyType($this->container), $object);
         
         $form->handleRequest($request);

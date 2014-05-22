@@ -1,0 +1,60 @@
+<?php
+
+namespace Unrtech\Bundle\EasybillBundle\Listener;
+
+use Unrtech\Bundle\EasybillBundle\Entity\Customer;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+/**
+ * Description of BillListener
+ *
+ * @author jeremy
+ */
+class CustomerListener {
+    protected $_container;
+    
+    public function setContainer(ContainerInterface $container) {
+        $this->_container = $container;
+    }
+    
+    public function prePersist(LifecycleEventArgs $args) {
+        $entity = $args->getEntity();
+        $_em = $args->getEntityManager();
+        if (null !== $this->_container->get('security.context')) {
+            $token = $this->_container->get('security.context')->getToken();
+            if ($token) {
+                $company = $token->getUser()->getCompany();
+                if ($entity instanceof Customer) {
+                    try {
+                        $entity->setCompany($company);
+                    } catch (\Exception $e) {
+                        throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException($e->getMessage(), $e->getCode());
+                    }
+
+                }
+            }
+        }
+    }
+    
+    public function preUpdate(LifecycleEventArgs $args) {
+        $entity = $args->getEntity();
+        $_em = $args->getEntityManager();
+        $uow = $_em->getUnitOfWork();
+        if (null !== $this->_container->get('security.context')) {
+            $token = $this->_container->get('security.context')->getToken();
+            if ($token) {
+                $company = $token->getUser()->getCompany();
+                if ($entity instanceof Customer) {
+                    try {
+                        $entity->setCompany($company);
+                        $uow->recomputeSingleEntityChangeSet($_em->getClassMetadata('UnrtechEasybillBundle:BaseBill'), $entity);
+                    } catch (\Exception $e) {
+                        throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException($e->getMessage(), $e->getCode());
+                    }
+
+                }
+            }
+        }
+    }
+}

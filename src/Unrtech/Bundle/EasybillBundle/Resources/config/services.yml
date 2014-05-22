@@ -7,14 +7,28 @@ services:
         calls:
             - [ connect, [ 'localhost', 11211 ]]
     unrtech.form.type.bill_line:
-        class: Unrtech\Bundle\EasyBillBundle\Form\Type\BillLineType
+        class: Unrtech\Bundle\EasybillBundle\Form\Type\BillLineType
         tags:
           - { name: form.type, alias: bill_line }
         arguments:
           - "@service_container"
     unrtech.form.type.bill:
-        class: Unrtech\Bundle\EasyBillBundle\Form\Type\BillType
+        class: Unrtech\Bundle\EasybillBundle\Form\Type\BillType
         tags:
           - { name: form.type, alias: bill }
         arguments:
           - "@service_container"
+    unrtech.bill.listener:
+        class: Unrtech\Bundle\EasybillBundle\Listener\BillListener
+        calls:
+            - [ setContainer, [ '@service_container' ]]
+        tags:
+            - {name: doctrine.event_listener, event: prePersist }
+            - {name: doctrine.event_listener, event: preUpdate }
+    unrtech.customer.listener:
+        class: Unrtech\Bundle\EasybillBundle\Listener\CustomerListener
+        calls:
+            - [ setContainer, [ '@service_container' ]]
+        tags:
+            - {name: doctrine.event_listener, event: prePersist }
+            - {name: doctrine.event_listener, event: preUpdate }
