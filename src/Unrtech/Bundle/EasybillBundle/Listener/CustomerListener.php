@@ -24,14 +24,15 @@ class CustomerListener {
         if (null !== $this->_container->get('security.context')) {
             $token = $this->_container->get('security.context')->getToken();
             if ($token) {
-                $company = $token->getUser()->getCompany();
-                if ($entity instanceof Customer) {
-                    try {
-                        $entity->setCompany($company);
-                    } catch (\Exception $e) {
-                        throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException($e->getMessage(), $e->getCode());
+                if (!$token->getUser() instanceof \Unrtech\Bundle\EasybillBundle\Entity\SuperAdmin) {
+                    $company = $token->getUser()->getCompany();
+                    if ($entity instanceof Customer) {
+                        try {
+                            $entity->setCompany($company);
+                        } catch (\Exception $e) {
+                            throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException($e->getMessage(), $e->getCode());
+                        }
                     }
-
                 }
             }
         }
@@ -44,15 +45,16 @@ class CustomerListener {
         if (null !== $this->_container->get('security.context')) {
             $token = $this->_container->get('security.context')->getToken();
             if ($token) {
-                $company = $token->getUser()->getCompany();
-                if ($entity instanceof Customer) {
-                    try {
-                        $entity->setCompany($company);
-                        $uow->recomputeSingleEntityChangeSet($_em->getClassMetadata('UnrtechEasybillBundle:BaseBill'), $entity);
-                    } catch (\Exception $e) {
-                        throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException($e->getMessage(), $e->getCode());
+                if (!$token->getUser() instanceof \Unrtech\Bundle\EasybillBundle\Entity\SuperAdmin) {
+                    $company = $token->getUser()->getCompany();
+                    if ($entity instanceof Customer) {
+                        try {
+                            $entity->setCompany($company);
+                            $uow->recomputeSingleEntityChangeSet($_em->getClassMetadata('UnrtechEasybillBundle:BaseBill'), $entity);
+                        } catch (\Exception $e) {
+                            throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException($e->getMessage(), $e->getCode());
+                        }
                     }
-
                 }
             }
         }
