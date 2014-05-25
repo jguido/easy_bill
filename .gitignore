@@ -4,6 +4,7 @@
 /web/uploads/
 /web/media/
 /web/image/
+/web/fonts/
 /app/bootstrap.php.cache
 /app/cache/*
 /app/config/parameters.yml
