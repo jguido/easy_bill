@@ -2,7 +2,8 @@
 /web/js/
 /web/css/
 /web/uploads/
-/web/
+/web/media/
+/web/image/
 /app/bootstrap.php.cache
 /app/cache/*
 /app/config/parameters.yml
