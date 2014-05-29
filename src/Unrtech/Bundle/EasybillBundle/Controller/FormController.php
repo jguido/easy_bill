@@ -122,7 +122,6 @@ class FormController extends Controller {
 
         $object = $_em->getRepository('UnrtechEasybillBundle:BillLine')->find($id);
 
-return $this->renderNotAccessibleResponse($request);
         $currentUSer = $this->get('security.context')->getToken()->getUser();
         if (!$currentUSer) {
             return $this->renderNotAccessibleResponse($request);
