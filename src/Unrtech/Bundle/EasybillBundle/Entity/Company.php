@@ -183,6 +183,17 @@ class Company {
     {
         return $this->siren;
     }
+    
+    public function setActivity($activity) {
+        $this->activity = $activity;
+        
+        return $this;
+    }
+    
+    public function getActivity() {
+        
+        return $this->activity;
+    }
 
     /**
      * Set reference

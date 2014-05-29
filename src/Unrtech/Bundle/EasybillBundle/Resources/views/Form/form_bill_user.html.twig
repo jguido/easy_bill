@@ -1,0 +1,53 @@
+{% if form is defined %}
+    <div class="col-xs-5 inline">
+        <form action="{{ path('path_form_user_edit') }}" method="post" {{ form_enctype(form) }} class="form-horizontal span8">
+                {{ form_widget(form.id) }}
+                {{ form_widget(form._token) }}
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.firstname) }}</span>
+                    {{ form_errors(form.firstname) }}
+                    <span class="col-xs-9">{{ form_widget(form.firstname) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.lastname) }}</span>
+                    {{ form_errors(form.lastname) }}
+                    <span class="col-xs-9">{{ form_widget(form.lastname) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.email) }}</span>
+                    {{ form_errors(form.email) }}
+                    <span class="col-xs-9">{{ form_widget(form.email) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.telephone) }}</span>
+                    {{ form_errors(form.telephone) }}
+                    <span class="col-xs-9">{{ form_widget(form.telephone) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.mobile) }}</span>
+                    {{ form_errors(form.mobile) }}
+                    <span class="col-xs-9">{{ form_widget(form.mobile) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.password) }}</span>
+                    {{ form_errors(form.password) }}
+                    <span class="col-xs-9">{{ form_widget(form.password) }}</span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-1 pull-right inline">
+                        <button type="button" value="Annuler" title="Annuler" class="btn btn-info  glyphicon glyphicon-remove data-dismiss close-modal pull-right"></button>
+                    </div>
+                    <div class="col-xs-1 pull-right inline">
+                        <button type="submit" value="Enregistrer" title="Enregistrer" class="btn btn-primary glyphicon glyphicon-ok pull-right"></button>
+                    </div>
+                </div>
+            </form>
+    </div>
+{% endif %}
+<script type="text/javascript">
+    jQuery(function($){
+        $('button.return-list').unbind('click').click(function(){
+            document.location.href = $('.navbar-brand:eq(1)').attr('href');
+        });
+    });
+</script>

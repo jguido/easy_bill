@@ -14,6 +14,8 @@ use Unrtech\Bundle\EasybillBundle\Entity\Customer;
 use Unrtech\Bundle\EasybillBundle\Form\Type\CustomerType;
 use Unrtech\Bundle\EasybillBundle\Entity\Company;
 use Unrtech\Bundle\EasybillBundle\Form\Type\CompanyType;
+use Unrtech\Bundle\EasybillBundle\Entity\BillUser;
+use Unrtech\Bundle\EasybillBundle\Form\Type\BillUserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class FormController extends Controller {
@@ -188,7 +190,7 @@ class FormController extends Controller {
             return $this->redirect($this->generateUrl('path_customers'));
         }
 
-        return $this->render('UnrtechEasybillBundle:Form:form_customer.html.twig', array(
+        return $this->render('UnrtechEasybillBundle:Form:form_create_customer.html.twig', array(
                     'form' => $form->createView(),
                     'action' => 'create'
         ));
@@ -283,6 +285,56 @@ class FormController extends Controller {
                     'id' => $id,
                     'action' => 'edit'
         ));
+    }
+
+    /**
+     * @Route("/form/render/user/edit", name="path_form_user_edit")
+     */
+    public function editUserAction(Request $request) {
+        $_em = $this->getDoctrine()->getManager();
+
+        $currentUSer = $this->get('security.context')->getToken()->getUser();
+        if (!$currentUSer) {
+            return $this->renderNotAccessibleResponse($request);
+        }
+        $originalPassword = $currentUSer->getPassword();
+
+        $form = $this->createForm(new BillUserType($this->container), $currentUSer);
+
+        $form->handleRequest($request);
+//        var_dump($form->getErrorsAsString());die;
+        if ($form->isValid()) {
+            $plainPassword = $form->get('password')->getData();
+            if (!empty($plainPassword)) {
+                //encode the password   
+                $encoder = $this->container->get('security.encoder_factory')->getEncoder($currentUSer); //get encoder for hashing pwd later
+                $tempPassword = $encoder->encodePassword($currentUSer->getPassword(), $currentUSer->getSalt());
+                $currentUSer->setPassword($tempPassword);
+            } else {
+                $currentUSer->setPassword($originalPassword);
+            }
+            $_em->flush();
+
+            return $this->redirect($this->generateUrl('path_parameters'));
+        }
+
+        return $this->render('UnrtechEasybillBundle:Form:form_bill_user.html.twig', array(
+                    'form' => $form->createView(),
+                    'id' => $currentUSer->getId(),
+                    'action' => 'edit'
+        ));
+    }
+
+    /**
+     * @Route("/form/render/parameter", name="path_parameters")
+     */
+    public function parameterAction(Request $request) {
+        $currentUSer = $this->get('security.context')->getToken()->getUser();
+        if (!$currentUSer) {
+            return $this->renderNotAccessibleResponse($request);
+        }
+
+        return $this->render('UnrtechEasybillBundle:Form:form_parameter.html.twig', array());
     }
 
     private function renderNotAccessibleResponse(Request $request) {

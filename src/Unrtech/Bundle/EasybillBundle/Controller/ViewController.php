@@ -4,7 +4,8 @@ namespace Unrtech\Bundle\EasybillBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
+use Unrtech\Bundle\EasybillBundle\Entity\SuperAdmin;
+use Unrtech\Bundle\EasybillBundle\Entity\BillUser;
 
 class ViewController extends Controller
 {
@@ -20,6 +21,10 @@ class ViewController extends Controller
      */
     public function homeAction()
     {
+        $check = $this->checkIfUSerHasCompany($this->get('security.context')->getToken());
+        if ($check !== true) {
+            return $check;
+        }
         
         return $this->render('UnrtechEasybillBundle:Default:home.html.twig', array('title' => 'EasyBill'));
     }
@@ -73,5 +78,17 @@ class ViewController extends Controller
         }
         
         return $this->render('UnrtechEasybillBundle:Bill:bill_view.html.twig', array('bill' => $entity));
+    }
+    
+    private function checkIfUSerHasCompany($token) {
+        if ($token) {
+            $currentUser = $token->getUser();
+            if ($currentUser instanceof BillUser && !$currentUser->getCompany() || !$currentUser instanceof SuperAdmin) {
+                
+//                return $this->redirect($this->generateUrl('path_form_company_create'));
+            }
+        }
+        
+        return true;
     }
 }

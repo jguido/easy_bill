@@ -2,6 +2,8 @@
     {% if form is defined %}
         <div class="col-xs-12">
             <form action="{% if action == 'edit' %}{{ path('path_form_bill_edit', {'id':id}) }}{% else %}{{ path('path_form_bill_create') }}{% endif %}" method="post" {{ form_enctype(form) }} class="form-horizontal span8">
+                {{ form_widget(form.id) }}
+                {{ form_widget(form._token) }}
                 <div class="row form-group">
                     <span class="col-xs-3 inline">{{ form_label(form.reference) }}</span>
                     {{ form_errors(form.reference) }}

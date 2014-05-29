@@ -33,7 +33,7 @@ class CompanyType extends AbstractType{
                 ->add('bp', null, array('required' => false, 'attr' => array('class' => 'col-xs-1')))
                 ->add('cp', null, array('required' => true, 'attr' => array('class' => 'col-xs-1')))
                 ->add('city', null, array('required' => true, 'attr' => array('class' => 'col-xs-2')))
-                ->add('country', 'entity', array('required' => true, 'attr' => array('class' => 'col-xs-2')))
+                ->add('country', 'entity', array('required' => true, 'class' => 'Unrtech\Bundle\EasybillBundle\Entity\Country'))
                 ->add('Enregistrer', 'submit', array('attr' => array('class' => 'btn btn-primary')))
                 ->add('Fermer', 'button', array('attr' => array('class' => 'btn btn-inverse')))
                 ;

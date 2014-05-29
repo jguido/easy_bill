@@ -1,0 +1,26 @@
+{% extends "UnrtechEasybillBundle:Default:base.html.twig" %}
+
+{% block title %}{% if title is defined %}{{ title|trans({},'UnrtechEasybillBundle') }}{% else %}{{ parent() }}{% endif %}{% endblock title %}
+
+{% block stylesheets %}{{ parent() }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {{ render(controller('UnrtechEasybillBundle:Form:editUser')) }}
+        {{ render(controller('UnrtechEasybillBundle:Form:editCompany', {'id': app.user.company.id})) }}
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock footer %}
+
+{% block javascripts %}{{ parent() }}
+
+<script type="text/javascript">
+    jQuery(function($){
+        $('button.return-list').unbind('click').click(function(){
+            document.location.href = $('.navbar-brand:eq(1)').attr('href');
+        });
+    });
+</script>
+{% endblock %}

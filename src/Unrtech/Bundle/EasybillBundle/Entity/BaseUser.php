@@ -53,6 +53,11 @@ abstract class BaseUser extends FosBaseUser
      */
     protected $mobile;
 
+    public function setId($id) {
+        $this->id = $id;
+        
+        return $this;
+    }
 
     /**
      * Get id
