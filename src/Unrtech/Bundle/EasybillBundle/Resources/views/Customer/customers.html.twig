@@ -3,7 +3,10 @@
 {% block title %}{% if title is defined %}{{ title|trans({},'UnrtechEasybillBundle') }}{% else %}{{ parent() }}{% endif %}{% endblock title %}
 
 {% block stylesheets %}{{ parent() }}{% endblock %}
-
+{% block customer %}
+    {{ parent() }}
+    {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand createCustomer" href="#" data-href="{{ path('path_form_customer_create') }}" title="New customer"><span class="glyphicon glyphicon-screenshot"></span></a>{% endif %}
+{% endblock customer %}
 {% block content %}
     <div class="row-fluid">
         <div class="col-xs-10">
@@ -26,13 +29,25 @@
                                 <td>{{ customer.city }}</td>
                                 <td>{{ customer.country }}</td>
                                 <td>
-                                    <a class="btn btn-success glyphicon glyphicon-pencil" href="{{ path('path_form_customer_edit', {'id': customer.id}) }}"></a>
+                                    <a class="btn btn-success glyphicon glyphicon-pencil editCustomer" data-href="{{ path('path_form_customer_edit', {'id': customer.id}) }}"></a>
                                 </td>
                             </tr>
                         {% endfor %}
                     {% endif %}
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div aria-hidden="true" aria-labelledby="modalEditFomLabel" role="dialog" tabindex="-1" class="modal fade modalEditFom">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                    <h4 id="modalEditFomLabel" class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -42,5 +57,43 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript">
+        jQuery(function($){
+            var twsModalEditForm = $('.modalEditFom');
+            $('.editCustomer').unbind('click').click(function(){
+                closeModal(twsModalEditForm);
+                var url = $(this).attr('data-href');
+                $.ajax({
+                   url: url,
+                   type: 'GET',
+                   success: function(res) {
+                        $('.modal-body', twsModalEditForm).html(res);
+                        openModal(twsModalEditForm, "&Eacute;dition du client");
+                        manageButtons();
+                    },
+                    error: function(xhr) {
+                        switch (xhr.status) {
+                            case 404:
+                                break;
+                            case 403:
+                                document.location.href = $('a.navbar-brand[action=logout]').attr('href');
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+            });
+            function closeModal(modal) {modal.removeClass('in').attr('aria-hidden', 'true').css({display: 'none'});}
+            function openModal(modal, title) {modal.addClass('in').attr('aria-hidden', 'false').css({display: 'block'});$('h4.modal-title', modal).html(title);}
+            function manageButtons(){
+                $('.close', twsModalEditForm).unbind('click').click(function(){
+                    closeModal(twsModalEditForm);
+                });
+                $('button.close-modal', twsModalEditForm).unbind('click').click(function(){
+                    closeModal(twsModalEditForm);
+                });
+            };
+        });
+    </script>
 {% endblock %}
-

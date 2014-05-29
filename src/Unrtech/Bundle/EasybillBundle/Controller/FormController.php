@@ -37,7 +37,7 @@ class FormController extends Controller {
             )));
         }
 
-        return $this->render('UnrtechEasybillBundle:Form:form_bill.html.twig', array(
+        return $this->render('UnrtechEasybillBundle:Form:form_create_bill.html.twig', array(
                     'form' => $form->createView(),
                     'action' => 'create'
         ));

@@ -30,7 +30,7 @@
                                 <td>{{ bill.creationDate|date("d-m-Y") }}</td>
                                 <td>{{ bill.updateDate|date("d-m-Y") }}</td>
                                 <td>
-                                    <a class="btn btn-success glyphicon glyphicon-pencil" href="{{ path('path_form_bill_edit', {'id': bill.id}) }}"></a>
+                                    <a class="btn btn-success glyphicon glyphicon-pencil editBill" data-href="{{ path('path_form_bill_edit', {'id': bill.id}) }}"></a>
                                     <a class="btn btn-primary glyphicon glyphicon-eye-open" href="{{ path('path_view_bill', {'id': bill.id}) }}"></a>
                                 </td>
                             </tr>
@@ -40,6 +40,18 @@
             </table>
         </div>
     </div>
+    <div aria-hidden="true" aria-labelledby="modalEditFomLabel" role="dialog" tabindex="-1" class="modal fade modalEditFom">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                    <h4 id="modalEditFomLabel" class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block footer %}
@@ -47,5 +59,44 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript">
+        jQuery(function($){
+            var twsModalEditForm = $('.modalEditFom');
+            $('.editBill').unbind('click').click(function(){
+                closeModal(twsModalEditForm);
+                var url = $(this).attr('data-href');
+                $.ajax({
+                   url: url,
+                   type: 'GET',
+                   success: function(res) {
+                        $('.modal-body', twsModalEditForm).html(res);
+                        openModal(twsModalEditForm, "&Eacute;dition de la facture");
+                        manageButtons();
+                    },
+                    error: function(xhr) {
+                        switch (xhr.status) {
+                            case 404:
+                                break;
+                            case 403:
+                                document.location.href = $('a.navbar-brand[action=logout]').attr('href');
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+            });
+            function closeModal(modal) {modal.removeClass('in').attr('aria-hidden', 'true').css({display: 'none'});}
+            function openModal(modal, title) {modal.addClass('in').attr('aria-hidden', 'false').css({display: 'block'});$('h4.modal-title', modal).html(title);}
+            function manageButtons(){
+                $('.close', twsModalEditForm).unbind('click').click(function(){
+                    closeModal(twsModalEditForm);
+                });
+                $('button.close-modal', twsModalEditForm).unbind('click').click(function(){
+                    closeModal(twsModalEditForm);
+                });
+            };
+        });
+    </script>
 {% endblock %}
 

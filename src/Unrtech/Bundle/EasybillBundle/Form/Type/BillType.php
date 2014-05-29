@@ -23,13 +23,13 @@ class BillType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('id', 'hidden')
-                ->add('reference', null, array('required' => 'true'))
-                ->add('taxes', null, array('required' => true))
-                ->add('totalHt', null, array('required' => true))
-                ->add('status', 'entity', array('required' => true, 'class' => 'Unrtech\Bundle\EasybillBundle\Entity\BillStatus'))
-                ->add('payment', 'entity', array('required' => true, 'class' => 'Unrtech\Bundle\EasybillBundle\Entity\Payment'))
+                ->add('reference', null, array('required' => 'true', 'attr' => array('class' => 'col-xs-2')))
+                ->add('taxes', null, array('required' => true, 'attr' => array('class' => 'col-xs-1')))
+                ->add('totalHt', null, array('required' => true, 'attr' => array('class' => 'col-xs-2')))
+                ->add('status', 'entity', array('required' => true, 'class' => 'Unrtech\Bundle\EasybillBundle\Entity\BillStatus', 'attr' => array('class' => 'col-xs-2')))
+                ->add('payment', 'entity', array('required' => true, 'class' => 'Unrtech\Bundle\EasybillBundle\Entity\Payment', 'attr' => array('class' => 'col-xs-2')))
 //                ->add('customer', 'entity', array('required' => true, 'class' => 'Unrtech\Bundle\EasybillBundle\Entity\Customer'))
-                ->add('customer', null, array('required' => true))
+                ->add('customer', null, array('required' => true, 'attr' => array('class' => 'col-xs-3')))
                 ->add('Enregistrer', 'submit', array('attr' => array('class' => 'btn btn-primary')))
                 ->add('Retour', 'button', array('attr' => array('class' => 'btn btn-inverse return-list')))
         ;

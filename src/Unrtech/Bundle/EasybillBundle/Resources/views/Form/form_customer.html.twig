@@ -1,29 +1,76 @@
-{% extends "UnrtechEasybillBundle:Default:base.html.twig" %}
-
-{% block title %}{% if title is defined %}{{ title|trans({},'UnrtechEasybillBundle') }}{% else %}{{ parent() }}{% endif %}{% endblock title %}
-
-{% block stylesheets %}{{ parent() }}{% endblock %}
-
-{% block content %}
+<div class="row">
     {% if form is defined %}
-        <div class="col-xs-8">
+        <div class="col-xs-12">
             <form action="{% if action == 'edit' %}{{ path('path_form_customer_edit', {'id':id}) }}{% else %}{{ path('path_form_customer_create') }}{% endif %}" method="post" {{ form_enctype(form) }} class="form-horizontal span8">
-                {{ form_rest(form) }}
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.reference) }}</span>
+                    {{ form_errors(form.reference) }}
+                    <span class="col-xs-9">{{ form_widget(form.reference) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.denomination) }}</span>
+                    {{ form_errors(form.denomination) }}
+                    <span class="col-xs-9">{{ form_widget(form.denomination) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.phone) }}</span>
+                    {{ form_errors(form.phone) }}
+                    <span class="col-xs-9">{{ form_widget(form.phone) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.mobile) }}</span>
+                    {{ form_errors(form.mobile) }}
+                    <span class="col-xs-9">{{ form_widget(form.mobile) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.mail) }}</span>
+                    {{ form_errors(form.mail) }}
+                    <span class="col-xs-9">{{ form_widget(form.mail) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.siret) }}</span>
+                    {{ form_errors(form.siret) }}
+                    <span class="col-xs-9">{{ form_widget(form.siret) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.address1) }}</span>
+                    {{ form_errors(form.address1) }}
+                    <span class="col-xs-9">{{ form_widget(form.address1) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.address2) }}</span>
+                    {{ form_errors(form.address2) }}
+                    <span class="col-xs-9">{{ form_widget(form.address2) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.bp) }}</span>
+                    {{ form_errors(form.bp) }}
+                    <span class="col-xs-9">{{ form_widget(form.bp) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.cp) }}</span>
+                    {{ form_errors(form.cp) }}
+                    <span class="col-xs-9">{{ form_widget(form.cp) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.city) }}</span>
+                    {{ form_errors(form.city) }}
+                    <span class="col-xs-9">{{ form_widget(form.city) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.country) }}</span>
+                    {{ form_errors(form.country) }}
+                    <span class="col-xs-9">{{ form_widget(form.country) }}</span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-1 pull-right inline">
+                        <button type="button" value="Fermer" title="Fermer" class="btn btn-info  glyphicon glyphicon-remove data-dismiss close-modal pull-right"></button>
+                    </div>
+                    <div class="col-xs-1 pull-right inline">
+                        <button type="submit" value="Enregistrer" title="Enregistrer" class="btn btn-primary glyphicon glyphicon-ok pull-right"></button>
+                    </div>
+                </div>
             </form>
         </div>
     {% endif %}
-{% endblock %}
-
-{% block footer %}
-{% endblock footer %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript">
-        jQuery(function($){
-            $('button.return-list').unbind('click').click(function(){
-                document.location.href = $('.navbar-brand:eq(3)').attr('href');
-            });
-        });
-    </script>
-{% endblock %}
+</div>

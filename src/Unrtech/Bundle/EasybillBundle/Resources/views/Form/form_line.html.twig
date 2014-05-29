@@ -1,7 +1,36 @@
-{% if form is defined %}
-    <div class="span8">
-        <form action="{% if action == 'edit' %}{{ path('path_form_bill_line_edit', {'id':id, 'parent' : parent}) }}{% else %}{{ path('path_form_bill_line_create', {'parent':parent}) }}{% endif %}" method="post" {{ form_enctype(form) }} class="form-horizontal span8">
-            {{ form_rest(form) }}
-        </form>
-    </div>
-{% endif %}
+<div class="row">
+    {% if form is defined %}
+        <div class="col-xs-12">
+            <form action="{% if action == 'edit' %}{{ path('path_form_bill_line_edit', {'id':id, 'parent' : parent}) }}{% else %}{{ path('path_form_bill_line_create', {'parent':parent}) }}{% endif %}" method="post" {{ form_enctype(form) }} class="form-horizontal span8">
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.service) }}</span>
+                    {{ form_errors(form.service) }}
+                    <span class="col-xs-9">{{ form_widget(form.service) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.quantity) }}</span>
+                    {{ form_errors(form.quantity) }}
+                    <span class="col-xs-9">{{ form_widget(form.quantity) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.unitPrice) }}</span>
+                    {{ form_errors(form.unitPrice) }}
+                    <span class="col-xs-9">{{ form_widget(form.unitPrice) }}</span>
+                </div>
+                <div class="row form-group">
+                    <span class="col-xs-3 inline">{{ form_label(form.discount) }}</span>
+                    {{ form_errors(form.discount) }}
+                    <span class="col-xs-9">{{ form_widget(form.discount) }}</span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-1 pull-right inline">
+                        <button type="button" value="Fermer" title="Fermer" class="btn btn-info  glyphicon glyphicon-remove data-dismiss close-modal pull-right"></button>
+                    </div>
+                    <div class="col-xs-1 pull-right inline">
+                        <button type="submit" value="Enregistrer" title="Enregistrer" class="btn btn-primary glyphicon glyphicon-ok pull-right"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+</div>

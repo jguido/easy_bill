@@ -34,7 +34,7 @@ class BillLineType extends AbstractType{
                 ->add('service', null, array('required' => true))
                 ->add('quantity', null, array('required' => true))
                 ->add('unitPrice', 'money', array('required' => true))
-                ->add('discount', null, array('required' => false))                
+                ->add('discount', null, array('required' => false))
                 ->add('Enregistrer', 'submit', array('attr' => array('class' => 'btn btn-primary')))
                 ->add('Fermer', 'button', array('attr' => array('class' => 'btn btn-inverse data-dismiss close-modal')))
                 ;
