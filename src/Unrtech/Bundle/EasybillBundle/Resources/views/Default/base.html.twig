@@ -23,7 +23,7 @@
                         {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand" href="{{ path('path_customers') }}" title="Customer list"><span class="glyphicon glyphicon-user"></span></a>{% endif %}
                         {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand" href="#" title="Parameters"><span class="glyphicon glyphicon-wrench"></span></a>{% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
-                        <a class="navbar-brand" href="{{ path('fos_user_security_logout') }}" title="Logout"><span class="glyphicon glyphicon-log-out"></span></a>
+                        <a class="navbar-brand" href="{{ path('fos_user_security_logout') }}" title="Logout" action="logout"><span class="glyphicon glyphicon-log-out"></span></a>
                     {% else %}
                         <a class="navbar-brand" href="{{ path('fos_user_security_login') }}" title="Login"><span class="glyphicon glyphicon-log-in"></span></a>
                     {% endif %}

@@ -152,10 +152,25 @@
             $('.editBillLine').unbind('click').click(function(){
                 closeModal(twsModalEditForm);
                 var url = $(this).attr('data-href');
-                $.get(url, function(res) {
-                    $('.modal-body', twsModalEditForm).html(res);
-                    openModal(twsModalEditForm, "&Eacute;dition de la ligne de facture");
-                    manageButtons();
+                $.ajax({
+                   url: url,
+                   type: 'GET',
+                   success: function(res) {
+                        $('.modal-body', twsModalEditForm).html(res);
+                        openModal(twsModalEditForm, "&Eacute;dition de la ligne de facture");
+                        manageButtons();
+                    },
+                    error: function(xhr) {
+                        switch (xhr.status) {
+                            case 404:
+                                break;
+                            case 403:
+                                document.location.href = $('a.navbar-brand[action=logout]').attr('href');
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 });
             });
             $('.createBillLine').unbind('click').click(function(){
