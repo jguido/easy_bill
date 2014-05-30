@@ -9,6 +9,16 @@
                 <span class="col-xs-9">{{ form_widget(form.name) }}</span>
             </div>
             <div class="row form-group">
+                {% if logo is defined and logo != "" %}
+                    <img width="100px;" src="data:image/{{ type }};base64,{{ logo }}"/>
+                {% endif %}
+            </div>
+            <div class="row form-group">
+                <span class="col-xs-3 inline">{{ form_label(form.logo) }}</span>
+                {{ form_errors(form.logo) }}
+                <span class="col-xs-9">{{ form_widget(form.logo) }}</span>
+            </div>
+            <div class="row form-group">
                 <span class="col-xs-3 inline">{{ form_label(form.siren) }}</span>
                 {{ form_errors(form.siren) }}
                 <span class="col-xs-9">{{ form_widget(form.siren) }}</span>

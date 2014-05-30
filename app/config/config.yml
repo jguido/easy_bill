@@ -74,3 +74,13 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Unrtech\Bundle\EasybillBundle\Entity\BaseUser
+
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     %kernel.root_dir%/../bin/wkhtmltopdf
+        options:    []
+    image:
+        enabled:    true
+        binary:     %kernel.root_dir%/../bin/wkhtmltoimage
+        options:    []

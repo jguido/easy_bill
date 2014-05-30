@@ -259,8 +259,9 @@ class FormController extends Controller {
      */
     public function editCompanyAction(Request $request, $id) {
         $_em = $this->getDoctrine()->getManager();
-
+        $type = null;
         $object = $_em->getRepository('UnrtechEasybillBundle:Company')->find($id);
+        $base64 = $object->getLogo64();
 
         $currentUSer = $this->get('security.context')->getToken()->getUser();
         if (!$currentUSer) {
@@ -275,13 +276,25 @@ class FormController extends Controller {
 
         $form->handleRequest($request);
         if ($form->isValid()) {
+            
+            $file = $form->get('logo')->getData();
+            if ($file) {
+                $type = $file->getMimeType();
+                $data = file_get_contents($file->getPathName());
+                $base64 = base64_encode($data);
+                $object->setLogo64($base64);
+                $object->setLogoType($type);
+                $object->setLogo(null);
+            }
+            
             $_em->flush();
 
             return $this->redirect($this->generateUrl('path_parameters'));
         }
-
         return $this->render('UnrtechEasybillBundle:Form:form_company.html.twig', array(
                     'form' => $form->createView(),
+                    'logo' => $base64,
+                    'type' => $type,
                     'id' => $id,
                     'action' => 'edit'
         ));

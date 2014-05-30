@@ -61,6 +61,27 @@ class Company {
     /**
      * @var string
      * 
+     * @ORM\Column(name="logo", type="string", length=10,  nullable=true)
+     */
+    private $logo;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="logo64", type="text", nullable=true)
+     */
+    private $logo64;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="logo_type", type="text", length=50,  nullable=true)
+     */
+    private $logoType;
+    
+    /**
+     * @var string
+     * 
      * @ORM\Column(name="address_1", type="string", length=255)
      */
     private $address1;
@@ -126,7 +147,12 @@ class Company {
         $this->bills = new ArrayCollection();
         $this->customers = new ArrayCollection();
     }
-    
+
+    public function setId($id) {
+        $this->id = $id;
+        
+        return $this;
+    }
 
     /**
      * Get id
@@ -239,6 +265,39 @@ class Company {
     public function getSlug()
     {
         return $this->slug;
+    }
+    
+    public function setLogo($logo) {
+        $this->logo = $logo;
+        
+        return $this;
+    }
+    
+    public function getLogo() {
+        
+        return $this->logo;
+    }
+    
+    public function setLogoType($type) {
+        $this->logoType = $type;
+        
+        return $this;
+    }
+    
+    public function getLogoType() {
+        
+        return $this->logoType;
+    }
+    
+    public function setLogo64($logo) {
+        $this->logo64 = $logo;
+        
+        return $this;
+    }
+    
+    public function getLogo64() {
+        
+        return $this->logo64;
     }
     
     /**

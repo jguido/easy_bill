@@ -7,6 +7,7 @@
 {% block nav %}
     {{ parent() }}
     {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand createBillLine" href="#" data-href="{{ path('path_form_bill_line_create', {'parent':bill.id}) }}" title="New line"><span class="glyphicon glyphicon-plus-sign"></span></a>{% endif %}
+    {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand" href="{{ path('path_bill_pdf_create', {'bill':bill.id}) }}" title="Print Bill"><span class="glyphicon glyphicon-print"></span></a>{% endif %}
 {% endblock nav %}
 {% block content %}
     <div class="row-fluid">

@@ -27,3 +27,4 @@ security:
         - { path: ^/register, role: ROLE_ADMIN }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/bill*, role: ROLE_ADMIN}
+        - { path: ^/form*, role: ROLE_ADMIN}
