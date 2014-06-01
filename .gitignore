@@ -2,7 +2,6 @@
 /web/js/
 /web/css/
 /web/uploads/
-<<<<<<< HEAD
 /web/media/
 /web/image/
 /web/fonts/
@@ -14,6 +13,9 @@
 !app/logs/.gitkeep
 /build/
 /vendor/
+bin/doctrine
+bin/doctrine.php
+bin/rebuild.sh
 /components/
 /composer.phar
 LICENSE
