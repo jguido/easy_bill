@@ -14,7 +14,6 @@
 !app/logs/.gitkeep
 /build/
 /vendor/
-/bin/
 /components/
 /composer.phar
 LICENSE
