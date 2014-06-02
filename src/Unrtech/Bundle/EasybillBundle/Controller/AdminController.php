@@ -20,6 +20,7 @@ class AdminController extends Controller {
             return $this->renderNotAccessibleResponse($request);
         }
         
+        return $this->render('UnrtechEasybillBundle:Grid:admin_users.html.twig', array());
     }
     
     private function renderNotAccessibleResponse(Request $request) {
