@@ -27,7 +27,7 @@ class PdfController extends Controller {
         return new Response(
                 $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, array(
                     'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => 'attachment; filename="file.pdf"'
+                    'Content-Disposition' => 'attachment; filename="'.$bill->getReference().'-'.$bill->getUpdateDate()->format('d-m-Y').'.pdf"'
                 )
         );
     }
