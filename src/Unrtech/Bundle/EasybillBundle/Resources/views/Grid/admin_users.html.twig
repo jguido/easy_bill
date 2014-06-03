@@ -6,7 +6,7 @@
 
 {% block content %}
     <div class="row-fluid">
-        
+        {{ grid(grid) }}
     </div>
     <div aria-hidden="true" aria-labelledby="modalEditFomLabel" role="dialog" tabindex="-1" class="modal fade modalEditFom">
         <div class="modal-dialog">
@@ -29,6 +29,17 @@
     {{ parent() }}
     <script type="text/javascript">
         jQuery(function($){
+            $('td.grid-column-company_name').addClass('col-xs-2');
+            $('td.grid-column-firstname').addClass('col-xs-2');
+            $('td.grid-column-lastname').addClass('col-xs-2');
+            $('td.grid-column-mobile').addClass('col-md-2');
+            $('td.grid-column-email').addClass('col-md-2');
+            $('td.grid-column-lastLogin').addClass('col-lg-1');
+            $('td.grid-column-__actions').addClass('col-xs-3');
+            redrawCols();
+            $(window).resize(function(){
+                redrawCols();
+            });
             var twsModalEditForm = $('.modalEditFom');
             $('.editBill').unbind('click').click(function(){
                 closeModal(twsModalEditForm);
@@ -64,6 +75,43 @@
                     closeModal(twsModalEditForm);
                 });
             };
+            function redrawCols() {
+                $('tr.grid-row-filters th:eq(0)').addClass('col-xs-2');
+                $('tr.grid-row-filters th:eq(1)').addClass('col-xs-2');
+                $('tr.grid-row-filters th:eq(2)').addClass('col-xs-2');
+                $('tr.grid-row-filters th:eq(3)').addClass('col-md-2');
+                $('tr.grid-row-filters th:eq(4)').addClass('col-md-2');
+                $('tr.grid-row-filters th:eq(5)').addClass('col-lg-1');
+                $('tr.grid-row-filters th:eq(6)').addClass('col-xs-3');
+                $('tr.grid-row-titles th:eq(0)').addClass('col-xs-2');
+                $('tr.grid-row-titles th:eq(1)').addClass('col-xs-2');
+                $('tr.grid-row-titles th:eq(2)').addClass('col-xs-2');
+                $('tr.grid-row-titles th:eq(3)').addClass('col-md-2');
+                $('tr.grid-row-titles th:eq(4)').addClass('col-md-2');
+                $('tr.grid-row-titles th:eq(5)').addClass('col-lg-1');
+                $('tr.grid-row-titles th:eq(6)').addClass('col-xs-3');
+                if ($(window).width() < 768) {
+                    $('[class*=col-xs]').css({'display': 'table-cell'});
+                    $('[class*=col-sm]').css({'display': 'none'});
+                    $('[class*=col-md]').css({'display': 'none'});
+                    $('[class*=col-lg]').css({'display': 'none'});
+                } else if ($(window).width() >= 768 && $(window).width() < 992) {
+                    $('[class*=col-xs]').css({'display': 'table-cell'});
+                    $('[class*=col-sm]').css({'display': 'table-cell'});
+                    $('[class*=col-md]').css({'display': 'none'});
+                    $('[class*=col-lg]').css({'display': 'none'});
+                } else if ($(window).width() >= 992 && $(window).width() < 1200) {
+                    $('[class*=col-xs]').css({'display': 'table-cell'});
+                    $('[class*=col-sm]').css({'display': 'table-cell'});
+                    $('[class*=col-md]').css({'display': 'table-cell'});
+                    $('[class*=col-lg]').css({'display': 'none'});
+                } else {
+                    $('[class*=col-xs]').css({'display': 'table-cell'});
+                    $('[class*=col-sm]').css({'display': 'table-cell'});
+                    $('[class*=col-md]').css({'display': 'table-cell'});
+                    $('[class*=col-lg]').css({'display': 'table-cell'});
+                }
+            }
         });
     </script>
 {% endblock %}

@@ -32,3 +32,12 @@
         </form>
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        jQuery(function($){
+            $('input#username').focus();
+        });
+    </script>
+{% endblock %}

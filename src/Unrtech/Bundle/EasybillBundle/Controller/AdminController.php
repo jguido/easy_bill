@@ -6,6 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use APY\DataGridBundle\Grid\Source\Entity;
+use APY\DataGridBundle\Grid\Action\RowAction;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class AdminController extends Controller {
 
@@ -20,7 +23,37 @@ class AdminController extends Controller {
             return $this->renderNotAccessibleResponse($request);
         }
         
-        return $this->render('UnrtechEasybillBundle:Grid:admin_users.html.twig', array());
+        $source = new Entity('UnrtechEasybillBundle:BillUser');
+        
+        $grid = $this->get('grid');
+        $grid->setSource($source);
+        
+        $rowEdit = new RowAction('', 'path_admin_user_edit', false, '_self', array('class' => 'btn btn-primary glyphicon glyphicon-pencil'), 'ROLE_SUPER_ADMIN');
+        $rowEdit->setRouteParameters(array('id'));
+        $grid->addRowAction($rowEdit);
+        
+        $rowDelete = new RowAction('', 'path_admin_user_delete', true, '_self', array('class' => 'btn btn-warning  glyphicon glyphicon-trash'), 'ROLE_SUPER_ADMIN');
+        $rowDelete->setConfirmMessage('Etes vous sûr de vouloir supprimer cet utilisateurs?');
+        $rowDelete->setRouteParameters(array('id'));
+        $grid->addRowAction($rowDelete);
+        
+        $grid->setLimits(50);
+        
+        return $grid->getGridResponse('UnrtechEasybillBundle:Grid:admin_users.html.twig');
+    }
+    
+    /**
+     * @Route("/bill/admin/user/edit/{id}", name="path_admin_user_edit")
+     */
+    public function editUserAction($id) {
+        
+    }
+    
+    /**
+     * @Route("/bill/admin/user/delete/{id}", name="path_admin_user_delete")
+     */
+    public function deleteUserAction($id) {
+        
     }
     
     private function renderNotAccessibleResponse(Request $request) {

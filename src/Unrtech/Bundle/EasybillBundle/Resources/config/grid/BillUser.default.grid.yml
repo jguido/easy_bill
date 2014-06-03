@@ -1,0 +1,56 @@
+Unrtech\Bundle\EasybillBundle\Entity\BillUser:
+    Source:
+        columns:
+            id: ~
+            company: ~
+            firstname: ~
+            lastname: ~
+            mobile: ~
+            email: ~
+            lastLogin: ~
+        groupBy: ~
+        filterable: ~
+    Columns:
+        id:
+            filterable: true
+            visible: false
+            id: id
+            title: id
+        company:
+            filterable: true
+            visible: true
+            id: company.name
+            field: company.name
+            source: true
+            title: company
+            operators: ["like", "nlike"]
+        firstname:
+            filterable: true
+            visible: true
+            id: firstname
+            title: firstname
+            operators: ["like", "nlike"]
+        lastname:
+            filterable: true
+            visible: true
+            id: lastname
+            title: lastname
+            operators: ["like", "nlike"]
+        mobile:
+            filterable: true
+            visible: true
+            id: mobile
+            title: mobile
+            operators: ["like", "nlike"]
+        email:
+            filterable: true
+            visible: true
+            id: email
+            title: email
+            operators: ["like", "nlike"]
+        lastLogin:
+            filterable: true
+            visible: true
+            id: lastLogin
+            title: last Login
+            format: "d-m-Y"

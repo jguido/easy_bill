@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Unrtech\Bundle\EasybillBundle\UnrtechEasybillBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
+            new APY\DataGridBundle\APYDataGridBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
