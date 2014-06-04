@@ -32,13 +32,14 @@ class BillUserType extends AbstractType {
                     'required' => false, 
                     'type' => 'password', 
                     'first_options'  => array('label' => 'Mot de passe'),
-                    'second_options' => array('label' => 'Mot de passe (validation)'),))
+                    'second_options' => array('label' => 'Mot de passe (validation)')
+                ))
         ;
     }
 
     public function getName() {
 
-        return 'bill';
+        return 'bill_user';
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {

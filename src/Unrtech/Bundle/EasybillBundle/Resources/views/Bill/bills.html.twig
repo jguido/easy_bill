@@ -30,9 +30,9 @@
                                 <td>{{ bill.creationDate|date("d-m-Y") }}</td>
                                 <td>{{ bill.updateDate|date("d-m-Y") }}</td>
                                 <td>
-                                    <a class="btn btn-success glyphicon glyphicon-pencil editBill" data-href="{{ path('path_form_bill_edit', {'id': bill.id}) }}"></a>
+                                    {% if not is_granted('ROLE_SUPER_ADMIN') %}<a class="btn btn-success glyphicon glyphicon-pencil editBill" data-href="{{ path('path_form_bill_edit', {'id': bill.id}) }}"></a>{% endif %}
                                     <a class="btn btn-primary glyphicon glyphicon-eye-open" href="{{ path('path_view_bill', {'id': bill.id}) }}"></a>
-                                    <a class="btn btn-info glyphicon glyphicon-print" href="{{ path('path_bill_pdf_create', {'bill': bill.id}) }}"></a>
+                                    {% if not is_granted('ROLE_SUPER_ADMIN') %}<a class="btn btn-info glyphicon glyphicon-print" href="{{ path('path_bill_pdf_create', {'bill': bill.id}) }}"></a>{% endif %}
                                 </td>
                             </tr>
                         {% endfor %}

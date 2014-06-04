@@ -8,6 +8,7 @@ Unrtech\Bundle\EasybillBundle\Entity\BillUser:
             mobile: ~
             email: ~
             lastLogin: ~
+            enabled: ~
         groupBy: ~
         filterable: ~
     Columns:
@@ -54,3 +55,9 @@ Unrtech\Bundle\EasybillBundle\Entity\BillUser:
             id: lastLogin
             title: last Login
             format: "d-m-Y"
+        enabled:
+            filterable: false
+            sortable: false
+            visible: true
+            id: enabled
+            title: Enabled

@@ -28,9 +28,22 @@ class AdminController extends Controller {
         $grid = $this->get('grid');
         $grid->setSource($source);
         
-        $rowEdit = new RowAction('', 'path_admin_user_edit', false, '_self', array('class' => 'btn btn-primary glyphicon glyphicon-pencil'), 'ROLE_SUPER_ADMIN');
-        $rowEdit->setRouteParameters(array('id'));
-        $grid->addRowAction($rowEdit);
+        $rowToogle = new RowAction('', 'path_admin_user_toogle', true, '_self', array(), 'ROLE_SUPER_ADMIN');
+        $rowToogle->manipulateRender(function($action, $row){
+            if ($row->getField('enabled')) {
+                $action->addAttribute('class', 'btn btn-primary glyphicon glyphicon-ban-circle');
+                $title = 'Lock';
+            } else {
+                $action->addAttribute('class', 'btn btn-primary glyphicon glyphicon-ok-circle');
+                $title = 'Unlock';                 
+             }
+             $action->addAttribute('title', $title);
+            
+            return $action;
+        });
+        $rowToogle->setRouteParameters(array('id'));
+        $rowToogle->setConfirmMessage("Etes vous sûr de vouloir change l\'état de cet utilisateurs?");
+        $grid->addRowAction($rowToogle);
         
         $rowDelete = new RowAction('', 'path_admin_user_delete', true, '_self', array('class' => 'btn btn-warning  glyphicon glyphicon-trash'), 'ROLE_SUPER_ADMIN');
         $rowDelete->setConfirmMessage('Etes vous sûr de vouloir supprimer cet utilisateurs?');
@@ -43,17 +56,34 @@ class AdminController extends Controller {
     }
     
     /**
-     * @Route("/bill/admin/user/edit/{id}", name="path_admin_user_edit")
+     * @Route("/bill/admin/user/toogle/{id}", name="path_admin_user_toogle")
      */
-    public function editUserAction($id) {
+    public function toogleUserAction($id) {
+        $_em = $this->getDoctrine()->getManager();
+        $object = $_em->getRepository('UnrtechEasybillBundle:BillUser')->find($id);
+        if (null === $object) {
+            return $this->render('UnrtechEasybillBundle::404.html.twig');
+        }
         
+        $object->setEnabled(!$object->isEnabled());
+        $_em->flush();
+        
+        return $this->redirect($this->generateUrl('path_administration'));
     }
     
     /**
      * @Route("/bill/admin/user/delete/{id}", name="path_admin_user_delete")
      */
     public function deleteUserAction($id) {
+        $_em = $this->getDoctrine()->getManager();
+        $object = $_em->getRepository('UnrtechEasybillBundle:BillUser')->find($id);
+        if (null === $object) {
+            return $this->render('UnrtechEasybillBundle::404.html.twig');
+        }
+        $_em->remove($object);
+        $_em->flush();
         
+        return $this->redirect($this->generateUrl('path_administration'));
     }
     
     private function renderNotAccessibleResponse(Request $request) {

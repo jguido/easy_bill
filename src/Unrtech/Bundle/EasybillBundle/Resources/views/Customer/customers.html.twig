@@ -5,7 +5,7 @@
 {% block stylesheets %}{{ parent() }}{% endblock %}
 {% block customer %}
     {{ parent() }}
-    {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand createCustomer" href="{{ path('path_form_customer_create') }}" title="New customer"><span class="glyphicon glyphicon-screenshot"></span></a>{% endif %}
+    {% if is_granted('ROLE_ADMIN') and not is_granted('ROLE_SUPER_ADMIN') %}<a class="navbar-brand createCustomer" href="{{ path('path_form_customer_create') }}" title="New customer"><span class="glyphicon glyphicon-screenshot"></span></a>{% endif %}
 {% endblock customer %}
 {% block content %}
     <div class="row-fluid">
@@ -29,7 +29,7 @@
                                 <td>{{ customer.city }}</td>
                                 <td>{{ customer.country }}</td>
                                 <td>
-                                    <a class="btn btn-success glyphicon glyphicon-pencil editCustomer" data-href="{{ path('path_form_customer_edit', {'id': customer.id}) }}"></a>
+                                    {% if not is_granted('ROLE_SUPER_ADMIN') %}<a class="btn btn-success glyphicon glyphicon-pencil editCustomer" data-href="{{ path('path_form_customer_edit', {'id': customer.id}) }}"></a>{% endif %}
                                 </td>
                             </tr>
                         {% endfor %}

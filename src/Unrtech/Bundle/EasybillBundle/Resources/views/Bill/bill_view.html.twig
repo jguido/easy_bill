@@ -6,18 +6,21 @@
 
 {% block nav %}
     {{ parent() }}
-    {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand createBillLine" href="#" data-href="{{ path('path_form_bill_line_create', {'parent':bill.id}) }}" title="New line"><span class="glyphicon glyphicon-plus-sign"></span></a>{% endif %}
-    {% if is_granted('ROLE_ADMIN') %}<a class="navbar-brand" href="{{ path('path_bill_pdf_create', {'bill':bill.id}) }}" title="Print Bill"><span class="glyphicon glyphicon-print"></span></a>{% endif %}
+    {% if is_granted('ROLE_ADMIN') and not is_granted('ROLE_SUPER_ADMIN') %}<a class="navbar-brand createBillLine" href="#" data-href="{{ path('path_form_bill_line_create', {'parent':bill.id}) }}" title="New line"><span class="glyphicon glyphicon-plus-sign"></span></a>{% endif %}
+    {% if is_granted('ROLE_ADMIN') and not is_granted('ROLE_SUPER_ADMIN') %}<a class="navbar-brand" href="{{ path('path_bill_pdf_create', {'bill':bill.id}) }}" title="Print Bill"><span class="glyphicon glyphicon-print"></span></a>{% endif %}
 {% endblock nav %}
 {% block content %}
-    <div class="row-fluid">
-        {% if bill is defined%}
-            <div class="row-fluid">
-                <!-- Company info -->
-                <div class="col-xs-6">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="row">
+                    {% if bill.company is defined and bill.company.logo64 is defined and bill.company.logo64 != '' and bill.company.logoType is defined  %}
+                            <img width="100px;" src="data:image/{{ bill.company.logoType }};base64,{{ bill.company.logo64 }}"/>
+                    {% endif %}
                 </div>
-                <!-- Customer info -->
-                <div class="col-xs-6">
+            </div>
+            <div class="col-xs-6">
+                <div class="row">
                     {% if bill.updateDate is defined%}
                         <span class="col-xs-7">{{ bill.updateDate|date('d-m-Y') }}</span>
                     {% endif %}
@@ -27,35 +30,55 @@
                     {% if bill.reference is defined%}
                             <span class="col-xs-7">{{ bill.reference }}</span>
                     {% endif %}
-                    {% if bill.customer is defined%}
-                            <span class="col-xs-7">{{ bill.customer }}</span>
-                        {% if bill.customer.address is defined%}
-                            {% if bill.customer.address.address1 is defined%}
-                                <span class="col-xs-7">{{ bill.customer.address.address1 }}</span>
-                            {% endif %}
-                            {% if bill.customer.address.address2 is defined%}
-                                <span class="col-xs-7">{{ bill.customer.address.address2 }}</span>
-                            {% endif %}
-                            {% if bill.customer.address.complement is defined%}
-                                <span class="col-xs-7">{{ bill.customer.address.complement }}</span>
-                            {% endif %}
-                            {% if bill.customer.address.postCode is defined%}
-                                <span class="col-xs-7">{{ bill.customer.address.postCode }}</span>
-                            {% endif %}
-                            {% if bill.customer.address.city is defined%}
-                                <span class="col-xs-7">{{ bill.customer.address.city }}</span>
-                            {% endif %}
-                        {% endif %}
-                    {% endif %}
                 </div>
             </div>
+        </div>
+        {% if bill is defined%}
             <div class="row-fluid">
-                <div class="col-xs-6"></div>
+                <!-- Company info -->
                 <div class="col-xs-6">
-                    <div class="row-fluid">
-                        {% if bill.customer is defined%}
-                                <span class="col-xs-6">{{ bill.customer }}</span>
+                    <div class="row">
+                    {% if bill.company is defined%}
+                        <div class="col-xs-12">{{ bill.company }}</div>
+                        {% if bill.company.address1 is defined%}
+                            <div class="col-xs-12">{{ bill.company.address1 }}</div>
                         {% endif %}
+                        {% if bill.company.address2 is defined%}
+                            <div class="col-xs-12">{{ bill.company.address2 }}</div>
+                        {% endif %}
+                        {% if bill.company.bp is defined%}
+                            <div class="col-xs-12">{{ bill.company.bp }}</div>
+                        {% endif %}
+                        {% if bill.company.cp is defined%}
+                            <div class="col-xs-12">{{ bill.company.cp }}</div>
+                        {% endif %}
+                        {% if bill.company.city is defined%}
+                            <div class="col-xs-12">{{ bill.company.city }}</div>
+                        {% endif %}
+                    {% endif %}
+                    </div>
+                </div>
+                <!-- Customer info -->
+                <div class="col-xs-6">
+                    <div class="row">
+                    {% if bill.customer is defined%}
+                        <div class="col-xs-12">{{ bill.customer }}</div>
+                        {% if bill.customer.address1 is defined%}
+                            <div class="col-xs-12">{{ bill.customer.address1 }}</div>
+                        {% endif %}
+                        {% if bill.customer.address2 is defined%}
+                            <div class="col-xs-12">{{ bill.customer.address2 }}</div>
+                        {% endif %}
+                        {% if bill.customer.bp is defined%}
+                            <div class="col-xs-12">{{ bill.customer.bp }}</div>
+                        {% endif %}
+                        {% if bill.customer.cp is defined%}
+                            <div class="col-xs-12">{{ bill.customer.cp }}</div>
+                        {% endif %}
+                        {% if bill.customer.city is defined%}
+                            <div class="col-xs-12">{{ bill.customer.city }}</div>
+                        {% endif %}
+                    {% endif %}
                     </div>
                 </div>
             </div>
@@ -94,8 +117,8 @@
                                         {% endif %}
                                     </td>
                                     <td class="">
-                                        <a title="&Eacute;diter" class="btn btn-success editBillLine glyphicon glyphicon-pencil" data-target="modalEditFom" data-toogle="modal" href="#" data-href="{{ path('path_form_bill_line_edit', {'id': line.id, 'parent': bill.id}) }}"></a>
-                                        <a title="Supprimer"class="btn btn-danger glyphicon glyphicon-trash" href="{{ path('path_remove_bill_line', {'line': line.id}) }}"></a>
+                                        {% if not is_granted('ROLE_SUPER_ADMIN') %}<a title="&Eacute;diter" class="btn btn-success editBillLine glyphicon glyphicon-pencil" data-target="modalEditFom" data-toogle="modal" href="#" data-href="{{ path('path_form_bill_line_edit', {'id': line.id, 'parent': bill.id}) }}"></a>{% endif %}
+                                        {% if not is_granted('ROLE_SUPER_ADMIN') %}<a title="Supprimer"class="btn btn-danger glyphicon glyphicon-trash" href="{{ path('path_remove_bill_line', {'line': line.id}) }}"></a>{% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}
