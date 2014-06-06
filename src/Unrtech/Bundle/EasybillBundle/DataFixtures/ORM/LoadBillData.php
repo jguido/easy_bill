@@ -101,6 +101,7 @@ class LoadBillData extends AbstractFixture implements OrderedFixtureInterface {
                 $discount = mt_rand(0, 100)/100;
                 $billLine = new BillLine();
                 $billLine
+                        ->setRank($j)
                         ->setService('service-'.$i.'-'.$j)
                         ->setQuantity($qty)
                         ->setUnitPrice($unity)

@@ -102,6 +102,7 @@ class FormController extends Controller {
 
         $form->handleRequest($request);
         if ($form->isValid()) {
+            $object->setRank(count($object->getBill()->getLines()));
             $_em->persist($object);
             $bill->addLine($object);
             $_em->flush();

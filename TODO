@@ -1,9 +1,3 @@
-+ Create admin for admin user :
-    - CRUD and access for user
-    - Can't print / edit bills, customers or company info.
-    - Can only access in read mode to customers, companies, bills
-
-+ Add sortable feature to bill lines (add order attribute in BillLine entity and exploit it inside view)
 + Create a landing page for anonymous users
 + Create landing page with charts for identified users
 + see for cache (varnish or esi)

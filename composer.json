@@ -33,7 +33,8 @@
         "components/jquery": "1.10.*",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "knplabs/knp-snappy-bundle": "dev-master",
-        "apy/datagrid-bundle": "dev-master"
+        "apy/datagrid-bundle": "dev-master",
+        "components/jqueryui": "1.10.*"
     },
     "scripts": {
         "post-install-cmd": [

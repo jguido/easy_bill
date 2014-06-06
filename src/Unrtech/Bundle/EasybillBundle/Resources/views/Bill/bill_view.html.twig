@@ -84,7 +84,7 @@
             </div>
             <div class="row-fluid">
                 <div class="col-xs-12">
-                    <table class="table table-responsive table-bordered table-striped">
+                    <table class="table table-responsive table-bordered table-striped sortable">
                         <thead>
                             <tr>
                                 <th class="col-xs-5">Pr&eacute;station</th>
@@ -98,7 +98,7 @@
                         <tbody>
                         {% if bill.lines is defined and bill.lines|length > 0 %}
                             {% for line in bill.lines %}
-                                <tr data-id="{{ line.id }}" data-parent="{{ bill.id }}">
+                                <tr data-id="{{ line.id }}" data-rank="{{ line.rank }}" data-parent="{{ bill.id }}">
                                     <td>{% if line.service is defined %}{{ line.service }}{% else %}-{% endif %}</td>
                                     <td class="right">{% if line.quantity is defined %}{{ line.quantity }}{% else %}-{% endif %}</td>
                                     <td class="right">{% if line.unitPrice is defined %}{{ line.unitPrice|number_format(2, '.', ',') }} €{% else %}-{% endif %}</td>
@@ -172,6 +172,25 @@
     {{ parent() }}
     <script type="text/javascript">
         jQuery(function($){
+            var url = '{{ path('path_change_rank_bill_line') }}';
+            var fixHelper = function(e, ui) {
+                ui.children().each(function() {
+                    $(this).width($(this).width());
+                });
+                return ui;
+            };
+            $('.sortable tbody').sortable({
+                helper: fixHelper,
+                stop: function(e, ui){
+                    $.post(
+                        url, 
+                        {
+                            id: ui.item.attr('data-id'),
+                            rank: ui.item.index()
+                        }
+                    );
+                }
+            }).disableSelection();
             var twsModalEditForm = $('.modalEditFom');
             $('.editBillLine').unbind('click').click(function(){
                 closeModal(twsModalEditForm);

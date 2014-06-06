@@ -12,6 +12,11 @@ assetic:
                 - less
                 - cssrewrite
           output: css/bootstrap.css
+        jquery_ui_css:
+            inputs:
+                - %kernel.root_dir%/../vendor/components/jqueryui/themes/flick/jquery-ui.min.css
+                - %kernel.root_dir%/../vendor/components/jqueryui/themes/flick/jquery.ui.theme.css
+            output: css/jquery-ui.min.css
         bootstrap_font_woff:
             inputs:
                 - %kernel.root_dir%/../vendor/twitter/bootstrap/fonts/glyphicons-halflings-regular.woff
@@ -32,6 +37,10 @@ assetic:
             inputs:
                 - %kernel.root_dir%/../vendor/components/jquery/jquery.min.js
             output: js/jquery.min.js
+        jquery_ui_js:
+            inputs:
+                - %kernel.root_dir%/../vendor/components/jqueryui/ui/minified/jquery-ui.min.js
+            output: js/jquery-ui.min.js
         bootstrap_js:
             inputs:
                 - %kernel.root_dir%/../vendor/twitter/bootstrap/js/transition.js

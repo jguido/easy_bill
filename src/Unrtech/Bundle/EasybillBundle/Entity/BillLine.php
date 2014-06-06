@@ -23,6 +23,13 @@ class BillLine
     private $id;
     
     /**
+     * @var int
+     * 
+     * @ORM\Column(name="rank", type="integer", nullable=false)
+     */
+    private $rank;
+    
+    /**
      * @ORM\Column(name="service", type="string", length=255)
      *
      * @var string
@@ -69,6 +76,29 @@ class BillLine
     
     public function setId($id) {
         $this->id = $id;
+        
+        return $this;
+    }
+    
+    /**
+     * Get rank
+     *
+     * @return integer 
+     */
+    public function getRank()
+    {
+        return $this->rank;
+    }
+    
+    /**
+     * Set the rank of the line
+     * 
+     * @param int $rank
+     * 
+     * @return \Unrtech\Bundle\EasybillBundle\Entity\BillLine
+     */
+    public function setRank($rank) {
+        $this->rank = $rank;
         
         return $this;
     }

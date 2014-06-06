@@ -4,6 +4,7 @@ namespace Unrtech\Bundle\EasybillBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Unrtech\Bundle\EasybillBundle\Entity\SuperAdmin;
 use Unrtech\Bundle\EasybillBundle\Entity\BillUser;
 
@@ -78,6 +79,50 @@ class ViewController extends Controller
         }
         
         return $this->render('UnrtechEasybillBundle:Bill:bill_view.html.twig', array('bill' => $entity));
+    }
+    /**
+     * @Method({"POST"})
+     * @Route("/bill/line/rank", name="path_change_rank_bill_line")
+     */
+    public function changeRankController() {
+        $_em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
+        $rank = $request->request->get('rank');
+        $id = $request->request->get('id');
+        
+        $object = $_em->getRepository('UnrtechEasybillBundle:BillLine')->find($id);
+        
+        if (!$object) {
+            return $this->render('UnrtechEasybillBundle::404.html.twig');
+        }
+        $entity = $object->getBill();
+        
+        $currentUSer = $this->get('security.context')->getToken()->getUser();
+        if (!$currentUSer) {
+            return $this->redirect($this->generateUrl('fos_user_security_logout'));
+        } else if ($currentUSer instanceof \Unrtech\Bundle\EasybillBundle\Entity\BillUser) {
+            if (!$this->get('security.context')->getToken()->getUser()->getCompany()->getBills()->contains($entity)) {
+                return $this->redirect($this->generateUrl('fos_user_security_logout'));
+            }
+        }
+        
+        if (count($entity->getLines()) <= 0) {
+            return $this->render('UnrtechEasybillBundle::404.html.twig');
+        }
+        
+        foreach ($entity->getLines() as $line) {
+            if ($line->getId() === $id) {
+                $line->setRank($rank);
+            }
+        }
+        foreach ($entity->getLines() as $line) {
+            if ($line->getRank() >= $rank && $line->getId() != $id) {
+                $line->setRank($line->getRank()+1);
+            }
+        }
+        $_em->flush();
+        
+        return new \Symfony\Component\HttpFoundation\Response('', 200);
     }
     
     private function checkIfUSerHasCompany($token) {

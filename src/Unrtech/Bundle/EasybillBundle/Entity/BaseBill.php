@@ -105,6 +105,7 @@ class BaseBill
      * @var Unrtech\Bundle\EasybillBundle\Entity\BillLine
      * 
      * @ORM\OneToMany(targetEntity="Unrtech\Bundle\EasybillBundle\Entity\BillLine", mappedBy="bill")
+     * @ORM\OrderBy({"rank" = "ASC"})
      */
     private $lines;
     
