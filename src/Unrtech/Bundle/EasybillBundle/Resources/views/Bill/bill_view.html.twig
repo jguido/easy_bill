@@ -98,7 +98,7 @@
                         <tbody>
                         {% if bill.lines is defined and bill.lines|length > 0 %}
                             {% for line in bill.lines %}
-                                <tr data-id="{{ line.id }}" data-rank="{{ line.rank }}" data-parent="{{ bill.id }}">
+                                <tr data-id="{{ line.id }}" data-rank="{{ line.rank }}" data-parent="{{ bill.id }}" class="sortable-row">
                                     <td>{% if line.service is defined %}{{ line.service }}{% else %}-{% endif %}</td>
                                     <td class="right">{% if line.quantity is defined %}{{ line.quantity }}{% else %}-{% endif %}</td>
                                     <td class="right">{% if line.unitPrice is defined %}{{ line.unitPrice|number_format(2, '.', ',') }} €{% else %}-{% endif %}</td>
@@ -182,11 +182,15 @@
             $('.sortable tbody').sortable({
                 helper: fixHelper,
                 stop: function(e, ui){
+                    var data = new Array();
+                    $('.sortable-row').each(function(){
+                        data.push({id: $(this).attr('data-id'), rank: $(this).index()});
+                    });
                     $.post(
                         url, 
                         {
-                            id: ui.item.attr('data-id'),
-                            rank: ui.item.index()
+                            data: data,
+                            id: ui.item.attr('data-id')
                         }
                     );
                 }

@@ -87,7 +87,7 @@ class ViewController extends Controller
     public function changeRankController() {
         $_em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
-        $rank = $request->request->get('rank');
+        $postData = $request->request->get('data');
         $id = $request->request->get('id');
         
         $object = $_em->getRepository('UnrtechEasybillBundle:BillLine')->find($id);
@@ -110,14 +110,15 @@ class ViewController extends Controller
             return $this->render('UnrtechEasybillBundle::404.html.twig');
         }
         
-        foreach ($entity->getLines() as $line) {
-            if ($line->getId() === $id) {
-                $line->setRank($rank);
-            }
+        if (count($postData) <= 0) {
+            return $this->render('UnrtechEasybillBundle::404.html.twig');
+            
         }
         foreach ($entity->getLines() as $line) {
-            if ($line->getRank() >= $rank && $line->getId() != $id) {
-                $line->setRank($line->getRank()+1);
+            foreach ($postData as $data) {
+                if (intval($data['id']) === $line->getId()) {
+                    $line->setRank($data['rank']);
+                }
             }
         }
         $_em->flush();
