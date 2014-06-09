@@ -12,7 +12,7 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <nav class="nav navbar-default" role="navigation">
+        <nav class="nav navbar-default navbar-static-top" role="navigation">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -38,10 +38,24 @@
             <div class="row-fluid">{% block content %}{% endblock %}</div>
             <div class="row-fluid">{% block footer %}{% endblock %}</div>
         </div>
+        <div class="ajax-layout">
+            <div class="ajax-loader">
+                <img src="{{ asset('bundles/unrtecheasybill/image/Preloader_8.gif') }}"/>
+            </div>
+        </div>
         {% block javascripts %}
             <script type="text/javascript" src="{{ asset('js/jquery.min.j') }}s"></script>
             <script type="text/javascript" src="{{ asset('js/jquery-ui.min.j') }}s"></script>
             <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
+            <script type="text/javascript">
+                jQuery(function($){
+                    $.ajaxSetup({
+                        beforeSend: function(){$('.ajax-layout').show();},
+                        complete: function(){$('.ajax-layout').hide();},
+                        error: function(){$('.ajax-layout').hide();}
+                    });
+                });
+            </script>
         {% endblock %}
     </body>
 </html>

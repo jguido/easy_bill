@@ -134,3 +134,5 @@ th div {
     width: 150px;
 }
 .grid-row-actions, .grid-row-actions>li{list-style: none;display: inline-table;}
+.ajax-layout{display:none;position: fixed;width: 100%;height: 100%;background-color: white;opacity: 0.6;top:0;}
+.ajax-loader>img{left: 50%;top: 50%;position:absolute;}
