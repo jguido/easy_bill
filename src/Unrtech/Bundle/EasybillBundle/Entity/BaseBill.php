@@ -403,6 +403,7 @@ class BaseBill
      */
     public function addLine(BillLine $line) {
         $line->setBill($this);
+        $this->totalHt+= $line->getUnitPrice() * $line->getQuantity() / (1 + ($line->getDiscount()/100));
         $this->lines->add($line);
         
         return $this;

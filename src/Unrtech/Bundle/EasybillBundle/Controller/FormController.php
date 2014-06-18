@@ -95,16 +95,17 @@ class FormController extends Controller {
                 return $this->renderNotAccessibleResponse($request);
             }
         }
-
         $object = new BillLine();
 
         $form = $this->createForm(new BillLineType($this->container), $object);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $object->setRank(count($object->getBill()->getLines()));
+            $rank = $object->getBill() ? count($object->getBill()->getLines()) : 0;
+            $object->setRank($rank);
             $_em->persist($object);
             $bill->addLine($object);
+            $bill->computeTotalHt();
             $_em->flush();
 
             return $this->redirect($this->generateUrl('path_view_bill', array('id' => $parent)));

@@ -25,7 +25,6 @@ class BillType extends AbstractType {
                 ->add('id', 'hidden')
                 ->add('reference', null, array('required' => 'true', 'attr' => array('class' => 'col-xs-2')))
                 ->add('taxes', null, array('required' => true, 'attr' => array('class' => 'col-xs-1')))
-                ->add('totalHt', null, array('required' => true, 'attr' => array('class' => 'col-xs-2')))
                 ->add('status', 'entity', array('required' => true, 'class' => 'Unrtech\Bundle\EasybillBundle\Entity\BillStatus', 'attr' => array('class' => 'col-xs-2')))
                 ->add('payment', 'entity', array('required' => true, 'class' => 'Unrtech\Bundle\EasybillBundle\Entity\Payment', 'attr' => array('class' => 'col-xs-2')))
 //                ->add('customer', 'entity', array('required' => true, 'class' => 'Unrtech\Bundle\EasybillBundle\Entity\Customer'))
