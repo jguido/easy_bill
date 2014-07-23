@@ -230,7 +230,7 @@
                 });
             });
             function closeModal(modal) {modal.removeClass('in').attr('aria-hidden', 'true').css({display: 'none'});}
-            function openModal(modal, title) {modal.addClass('in').attr('aria-hidden', 'false').css({display: 'block'});$('h4.modal-title', modal).html(title);$('input').val('');}
+            function openModal(modal, title) {modal.addClass('in').attr('aria-hidden', 'false').css({display: 'block'});$('h4.modal-title', modal).html(title);}
             function manageButtons(){
                 $('.close', twsModalEditForm).unbind('click').click(function(){
                     closeModal(twsModalEditForm);

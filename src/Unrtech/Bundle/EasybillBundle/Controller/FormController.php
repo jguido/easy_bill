@@ -31,6 +31,7 @@ class FormController extends Controller {
 
         $form->handleRequest($request);
         if ($form->isValid()) {
+            $object->setTotalHt(0);
             $_em->persist($object);
             $_em->flush();
 
@@ -88,6 +89,7 @@ class FormController extends Controller {
         $bill = $_em->getRepository('UnrtechEasybillBundle:BaseBill')->find($parent);
 
         $currentUSer = $this->get('security.context')->getToken()->getUser();
+        
         if (!$currentUSer) {
             return $this->renderNotAccessibleResponse($request);
         } else if ($currentUSer instanceof \Unrtech\Bundle\EasybillBundle\Entity\BillUser) {
@@ -114,7 +116,7 @@ class FormController extends Controller {
         return $this->render('UnrtechEasybillBundle:Form:form_line.html.twig', array(
                     'form' => $form->createView(),
                     'parent' => $parent,
-                    'action' => 'create'
+                    'action' => 'create',
         ));
     }
 
@@ -147,7 +149,7 @@ class FormController extends Controller {
                     'form' => $form->createView(),
                     'id' => $id,
                     'parent' => $parent,
-                    'action' => 'edit'
+                    'action' => 'edit',
         ));
     }
 
