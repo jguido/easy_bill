@@ -3,8 +3,9 @@ set :domain,      "localhost"
 set :deploy_to,   "/home/www-data/src/easyBill"
 set :app_path,    "app"
 
-set :repository,  "/home/unrtech/repo/easyBill.git"
+set :repository,  "file///home/unrtech/repo/easyBill.git"
 set :scm,         :git
+set :deploy_via,  :copy
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `subversion`, `mercurial`, `perforce`, or `none`
 
 set :model_manager, "doctrine"
