@@ -1,9 +1,9 @@
 set :application, "Easy Bill"
-set :domain,      "localhost"
+set :domain,      "bill.unrtech.fr"
 set :deploy_to,   "/home/www-data/src/easyBill"
 set :app_path,    "app"
 
-set :repository,  "file///home/unrtech/repo/easyBill.git"
+set :repository,  "file:///home/unrtech/repo/easyBill.git"
 set :scm,         :git
 set :deploy_via,  :copy
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `subversion`, `mercurial`, `perforce`, or `none`
