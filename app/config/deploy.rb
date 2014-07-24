@@ -1,5 +1,5 @@
 set :application, "Easy Bill"
-set :domain,      "bill.unrtech.fr"
+set :domain,      "195.154.9.83"
 set :deploy_to,   "/home/www-data/src/easyBill"
 set :app_path,    "app"
 
