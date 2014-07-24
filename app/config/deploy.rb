@@ -1,12 +1,11 @@
-set   :application,   "Easy Bill"
-set   :deploy_to,     "/home/www-data/src/easyBill"
-set   :domain,        "195.154.9.83"
+set   :application,   "easyBill"
+set   :deploy_to,     "/home/www-data/src/#{application}"
 
 set   :scm,           :git
-set   :repository,    "ssh://root@195.154.9.83:/home/unrtech/repo/easyBill.git"
+set   :repository,    "ssh-git-#{application}:/home/unrtech/repo/#{application}.git"
 
-role  :web,           domain
-role  :app,           domain, :primary => true
+role  :web,           application
+role  :app,           application, :primary => true
 
 set   :use_sudo,      false
 set   :keep_releases, 3
