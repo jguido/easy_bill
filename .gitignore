@@ -11,6 +11,8 @@
 /app/logs/*
 !app/cache/.gitkeep
 !app/logs/.gitkeep
+app/config/deploy.rb
+.rsync*
 /build/
 /vendor/
 bin/doctrine
