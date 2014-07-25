@@ -418,6 +418,7 @@ class BaseBill
      */
     public function removeLine(BillLine $line) {
         $this->lines->removeElement($line);
+        $this->totalHt-= $line->getUnitPrice() * $line->getQuantity() / (1 + ($line->getDiscount()/100));
         
         return $this;
     }

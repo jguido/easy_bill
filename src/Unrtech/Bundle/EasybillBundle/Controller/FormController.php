@@ -107,7 +107,7 @@ class FormController extends Controller {
             $object->setRank($rank);
             $_em->persist($object);
             $bill->addLine($object);
-            $bill->computeTotalHt();
+//            $bill->computeTotalHt();
             $_em->flush();
 
             return $this->redirect($this->generateUrl('path_view_bill', array('id' => $parent)));
