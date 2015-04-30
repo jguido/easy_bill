@@ -24,3 +24,6 @@ LICENSE
 README.md
 UPGRADE-2.2.md
 UPGRADE.md
+
+.rsync_cache
+.idea
