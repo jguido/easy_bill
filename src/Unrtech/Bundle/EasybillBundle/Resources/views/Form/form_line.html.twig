@@ -4,6 +4,7 @@
             <form action="{% if action == 'edit' %}{{ path('path_form_bill_line_edit', {'id':id, 'parent' : parent}) }}{% else %}{{ path('path_form_bill_line_create', {'parent':parent}) }}{% endif %}" method="post" {{ form_enctype(form) }} class="form-horizontal span8">
                 {{ form_widget(form.id) }}
                 {{ form_widget(form._token) }}
+                <input type="hidden" name="{{ form.vars.full_name }}[bill]" value="{{ parent }}"/>
                 <div class="row form-group">
                     <span class="col-xs-3 inline">{{ form_label(form.service) }}</span>
                     {{ form_errors(form.service) }}

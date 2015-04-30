@@ -98,14 +98,17 @@ class FormController extends Controller {
             }
         }
         $object = new BillLine();
+        $object->setDiscount(0);
+        $object->setQuantity(0);
 
-        $form = $this->createForm(new BillLineType($this->container), $object);
+        $form = $this->createForm(new BillLineType($_em), $object);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
             $rank = $object->getBill() ? count($object->getBill()->getLines()) : 0;
             $object->setRank($rank);
             $_em->persist($object);
+            $object->setDiscount($object->getDiscount() > 1 ? $object->getDiscount()/100 : $object->getDiscount());
             $bill->addLine($object);
 //            $bill->computeTotalHt();
             $_em->flush();
@@ -137,9 +140,10 @@ class FormController extends Controller {
             }
         }
 
-        $form = $this->createForm(new BillLineType($this->container), $object);
+        $form = $this->createForm(new BillLineType($_em), $object);
         $form->handleRequest($request);
         if ($form->isValid()) {
+            $object->setDiscount($object->getDiscount() > 1 ? $object->getDiscount()/100 : $object->getDiscount());
             $_em->flush();
 
             return $this->redirect($this->generateUrl('path_view_bill', array('id' => $parent)));

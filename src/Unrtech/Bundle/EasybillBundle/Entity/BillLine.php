@@ -58,7 +58,7 @@ class BillLine
     private $discount;
     
     /**
-     * @var Unrtech\Bundle\EasybillBundle\Entity\BaseBill 
+     * @var BaseBill
      * 
      * @ORM\ManyToOne(targetEntity="Unrtech\Bundle\EasybillBundle\Entity\BaseBill", inversedBy="lines")
      */
@@ -198,9 +198,9 @@ class BillLine
     /**
      * Set bill
      * 
-     * @param \Unrtech\Bundle\EasybillBundle\Entity\Unrtech\Bundle\EasybillBundle\Entity\BaseBill $bill
+     * @param BaseBill $bill
      * 
-     * @return \Unrtech\Bundle\EasybillBundle\Entity\BillLine
+     * @return BillLine
      */
     public function setBill(BaseBill $bill) {
         $this->bill = $bill;

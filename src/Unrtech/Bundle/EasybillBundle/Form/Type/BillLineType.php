@@ -2,6 +2,7 @@
 
 namespace Unrtech\Bundle\EasybillBundle\Form\Type;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -14,17 +15,17 @@ use Unrtech\Bundle\EasybillBundle\Form\Transformer\BillTransformer;
  * @author jeremy
  */
 class BillLineType extends AbstractType{
-    
-    protected $container;
+
+    protected $om;
     protected $parentId;
     
-    public function __construct(ContainerInterface $container) {
-        $this->container = $container;
+    public function __construct(ObjectManager $om) {
+        $this->om = $om;
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
         
-        $billTransformer = new BillTransformer($this->container->get('doctrine.orm.default_entity_manager'));
+        $billTransformer = new BillTransformer($this->om);
         $builder
                 ->add(
                         $builder->create('bill', 'hidden')
@@ -32,9 +33,9 @@ class BillLineType extends AbstractType{
                 )
                 ->add('id', 'hidden')
                 ->add('service', null, array('required' => true))
-                ->add('quantity', null, array('required' => true))
+                ->add('quantity', 'integer', array('required' => true))
                 ->add('unitPrice', 'money', array('required' => true))
-                ->add('discount', null, array('required' => false))
+                ->add('discount', 'integer', array('required' => false))
                 ->add('Enregistrer', 'submit', array('attr' => array('class' => 'btn btn-primary')))
                 ->add('Fermer', 'button', array('attr' => array('class' => 'btn btn-inverse data-dismiss close-modal')))
                 ;
