@@ -3,7 +3,7 @@
 namespace Unrtech\Bundle\EasybillBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Entity\User as FosBaseUser;
+use FOS\UserBundle\Model\User as FosBaseUser;
 
 /**
  * User
